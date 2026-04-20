@@ -1,10 +1,9 @@
-package tests
+package easy
 
 import (
 	"testing"
 
 	"github.com/0226zy/lc-go/pkg/utils"
-	"github.com/0226zy/lc-go/solutions/easy"
 )
 
 func TestTwoSum(t *testing.T) {
@@ -20,7 +19,7 @@ func TestTwoSum(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := easy.TwoSum(tt.nums, tt.target)
+			got := TwoSum(tt.nums, tt.target)
 			if !utils.EqualIntSlice(got, tt.want) {
 				t.Errorf("TwoSum(%v, %d) = %v, want %v", tt.nums, tt.target, got, tt.want)
 			}

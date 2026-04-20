@@ -83,3 +83,91 @@ func expand(s string, left, right int) (int, int) {
     return left + 1, right - 1
 }
 ```
+
+---
+
+### 解法二：动态规划
+
+#### 思路
+
+定义 `dp[i][j]` 表示 `s[i..j]` 是否为回文。状态转移：
+
+```
+dp[i][j] = (s[i] == s[j]) && dp[i+1][j-1]
+```
+
+**初始条件**：
+- 长度 1：`dp[i][i] = true`（单字符必回文）
+- 长度 2：`dp[i][i+1] = (s[i] == s[i+1])`
+
+**填表顺序**：按子串长度从 3 递增到 n，这样计算 `dp[i][j]` 时 `dp[i+1][j-1]` 已就绪。
+
+在填表过程中记录最长回文的起始位置和长度。
+
+#### 复杂度
+
+- **时间**：O(n²)，双重循环
+- **空间**：O(n²)，`dp` 二维数组
+
+与中心扩展相比，DP 多了 O(n²) 的空间开销，但思路更通用，适合作为 DP 练习。
+
+#### 代码
+
+```go
+func longestPalindromeDP(s string) string {
+    n := len(s)
+    if n <= 1 {
+        return s
+    }
+
+    dp := make([][]bool, n)
+    for i := range dp {
+        dp[i] = make([]bool, n)
+        dp[i][i] = true
+    }
+
+    start, maxLen := 0, 1
+
+    // 长度 2
+    for i := 0; i < n-1; i++ {
+        if s[i] == s[i+1] {
+            dp[i][i+1] = true
+            start, maxLen = i, 2
+        }
+    }
+
+    // 长度 3 ~ n
+    for length := 3; length <= n; length++ {
+        for i := 0; i <= n-length; i++ {
+            j := i + length - 1
+            if s[i] == s[j] && dp[i+1][j-1] {
+                dp[i][j] = true
+                if length > maxLen {
+                    start, maxLen = i, length
+                }
+            }
+        }
+    }
+
+    return s[start : start+maxLen]
+}
+```
+
+#### DP 填表过程示例（`s = "babad"`）
+
+```
+      b  a  b  a  d
+  b [ T  .  T  .  . ]
+  a [ .  T  .  T  . ]
+  b [ .  .  T  .  . ]
+  a [ .  .  .  T  . ]
+  d [ .  .  .  .  T ]
+
+长度2: 无相邻相同字符
+长度3: dp[0][2]=T (s[0]='b'==s[2]='b', dp[1][1]=T) → "bab"
+       dp[1][3]=T (s[1]='a'==s[3]='a', dp[2][2]=T) → "aba"
+长度4: dp[0][3]=F (s[0]='b'!=s[3]='a')
+       dp[1][4]=F (s[1]='a'!=s[4]='d')
+长度5: dp[0][4]=F (s[0]='b'!=s[4]='d')
+结果: maxLen=3, start=0 → "bab"
+```

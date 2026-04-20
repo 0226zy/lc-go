@@ -1,7 +1,7 @@
 .PHONY: test run build clean
 
 test:
-	go test ./tests/... -v
+	go test ./... -v
 
 run:
 	go run ./cmd/main.go
