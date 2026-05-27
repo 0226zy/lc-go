@@ -12,6 +12,7 @@ import (
 	"github.com/0226zy/lc-go/solutions/hot100/0003_longest_substring_without_repeating_characters"
 	"github.com/0226zy/lc-go/solutions/hot100/0004_median_of_two_sorted_arrays"
 	"github.com/0226zy/lc-go/solutions/hot100/0005_longest_palindromic_substring"
+	"github.com/0226zy/lc-go/solutions/hot100/0049_group_anagrams"
 )
 
 type command struct {
@@ -75,6 +76,16 @@ func main() {
 				s := "babad"
 				result := longestpalindromicsubstring.LongestPalindrome(s)
 				fmt.Printf("LongestPalindrome(%q) = %q\n", s, result)
+			},
+		},
+		{
+			name:        "group-anagrams",
+			alias:       "49",
+			description: "字母异位词分组 (Group Anagrams)",
+			fn: func() {
+				strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+				result := groupanagrams.GroupAnagrams(strs)
+				fmt.Printf("GroupAnagrams(%v) = %v\n", strs, result)
 			},
 		},
 	}
