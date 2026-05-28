@@ -13,6 +13,7 @@ import (
 	"github.com/0226zy/lc-go/solutions/hot100/0004_median_of_two_sorted_arrays"
 	"github.com/0226zy/lc-go/solutions/hot100/0005_longest_palindromic_substring"
 	"github.com/0226zy/lc-go/solutions/hot100/0049_group_anagrams"
+	"github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
 )
 
 type command struct {
@@ -86,6 +87,16 @@ func main() {
 				strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
 				result := groupanagrams.GroupAnagrams(strs)
 				fmt.Printf("GroupAnagrams(%v) = %v\n", strs, result)
+			},
+		},
+		{
+			name:        "longest-increasing-subsequence",
+			alias:       "300",
+			description: "最长递增子序列 (Longest Increasing Subsequence)",
+			fn: func() {
+				nums := []int{10, 9, 2, 5, 3, 7, 101, 18}
+				result := longestincreasingsubsequence.LengthOfLIS(nums)
+				fmt.Printf("LengthOfLIS(%v) = %d\n", nums, result)
 			},
 		},
 	}
