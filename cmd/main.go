@@ -12,6 +12,7 @@ import (
 	"github.com/0226zy/lc-go/solutions/hot100/0003_longest_substring_without_repeating_characters"
 	"github.com/0226zy/lc-go/solutions/hot100/0004_median_of_two_sorted_arrays"
 	"github.com/0226zy/lc-go/solutions/hot100/0005_longest_palindromic_substring"
+	"github.com/0226zy/lc-go/solutions/hot100/0011_container_with_most_water"
 	"github.com/0226zy/lc-go/solutions/hot100/0049_group_anagrams"
 	"github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
 )
@@ -87,6 +88,16 @@ func main() {
 				strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
 				result := groupanagrams.GroupAnagrams(strs)
 				fmt.Printf("GroupAnagrams(%v) = %v\n", strs, result)
+			},
+		},
+		{
+			name:        "container-with-most-water",
+			alias:       "11",
+			description: "盛最多水的容器 (Container With Most Water)",
+			fn: func() {
+				height := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
+				result := containerwithmostwater.MaxArea(height)
+				fmt.Printf("MaxArea(%v) = %d\n", height, result)
 			},
 		},
 		{
