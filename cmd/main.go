@@ -16,6 +16,7 @@ import (
 	groupanagrams "github.com/0226zy/lc-go/solutions/hot100/0049_group_anagrams"
 	longestincreasingsubsequence "github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
 	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
+	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
 )
 
 type command struct {
@@ -121,6 +122,17 @@ func main() {
 				result := findallanagramsinastring.FindAnagrams(s, p)
 				fmt.Printf("FindAnagrams(%q, %q) = ", s, p)
 				utils.PrintIntSlice(result)
+			},
+		},
+		{
+			name:        "subarray-sum-equals-k",
+			alias:       "560",
+			description: "和为 K 的子数组 (Subarray Sum Equals K)",
+			fn: func() {
+				nums := []int{1, 1, 1}
+				k := 2
+				result := subarraysumequalk.SubarraySum(nums, k)
+				fmt.Printf("SubarraySum(%v, %d) = %d\n", nums, k, result)
 			},
 		},
 	}
