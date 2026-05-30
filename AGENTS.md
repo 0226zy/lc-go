@@ -29,9 +29,13 @@ lc-go/
 │       ├── treenode.go     # 二叉树节点 + 层序构造/打印方法
 │       └── unionfind.go    # 并查集（路径压缩 + 按秩合并）
 └── solutions/              # 题解代码
-    ├── easy/               # 简单题（flat 文件，package easy）
-    ├── medium/             # 中等题（目前为空）
-    ├── hard/               # 困难题（目前为空）
+    ├── easy/               # 简单题
+    │   └── 0001_two_sum/
+    │       ├── problem.md
+    │       ├── two_sum.go
+    │       └── two_sum_test.go
+    ├── medium/             # 中等题
+    ├── hard/               # 困难题
     └── hot100/             # LeetCode Hot 100
         └── 0002_add_two_numbers/
             ├── problem.md          # 题目描述、思路解析、复杂度分析
@@ -39,18 +43,15 @@ lc-go/
             └── add_two_numbers_test.go  # 单元测试 + Benchmark
 ```
 
-### 两种题目组织方式
+### 题目组织方式
 
-1. **`solutions/easy/`（以及 `medium/`、`hard/`）**
-   - 采用**扁平文件**方式：所有简单题放在同一目录下，包名统一为 `easy`。
-   - 示例：`two_sum.go`、`two_sum_test.go`。
+`solutions/` 下所有分类目录（`easy/`、`medium/`、`hard/`、`hot100/` 等）采用**统一的子目录结构**：
 
-2. **`solutions/hot100/`**
-   - 每道题一个**独立子目录**，目录名格式为 `<题号>_<下划线分隔的描述>`，例如 `0002_add_two_numbers`。
-   - 每个子目录下包含：
-     - `problem.md`：题目描述、核心思路、算法步骤、复杂度分析（**中文撰写**）。
-     - `<name>.go`：题解代码，包名使用**小写、无下划线**的缩写或简写，例如 `addtwonumbers`、`longestsubstring`。
-     - `<name>_test.go`：测试文件，包名与实现文件相同。
+- 每道题一个**独立子目录**，目录名格式为 `<题号>_<下划线分隔的描述>`，例如 `0001_two_sum`、`0002_add_two_numbers`。
+- 每个子目录下包含：
+  - `problem.md`：题目描述、核心思路、算法步骤、复杂度分析（**中文撰写**）。
+  - `<name>.go`：题解代码，包名使用**小写、无下划线**的缩写或简写，例如 `twosum`、`addtwonumbers`。
+  - `<name>_test.go`：测试文件，包名与实现文件相同。
 
 ## 构建与测试命令
 
@@ -77,8 +78,7 @@ lc-go/
   func TwoSum(nums []int, target int) []int { ... }
   ```
 - **包命名**：
-  - `easy/` 等难度目录使用统一包名（`package easy`）。
-  - `hot100/` 子目录使用描述性小写包名，不含下划线（如 `package longestpalindromicsubstring`）。
+  - 所有子目录均使用描述性小写包名，不含下划线（如 `package twosum`、`package longestpalindromicsubstring`）。
 - **数据结构**：链表、树等题目不要自己重新定义节点结构，统一使用 `pkg/datastructures` 中的类型：
   - `datastructures.ListNode`
   - `datastructures.TreeNode`
@@ -99,15 +99,12 @@ lc-go/
 ## 如何添加新题目
 
 1. 根据题目难度或分类，选择放入 `solutions/easy/`、`solutions/medium/`、`solutions/hard/` 或 `solutions/hot100/`。
-2. **如果是 `hot100/`**：
-   - 新建目录：`solutions/hot100/000X_problem_name/`
-   - 添加 `problem.md`（题目描述 + 思路解析 + 复杂度分析）
-   - 添加 `<name>.go`（题解实现）
-   - 添加 `<name>_test.go`（充分覆盖的单元测试 + Benchmark）
-3. **如果是 `easy/` 等难度目录**：
-   - 直接在目录下新建 `<name>.go` 和 `<name>_test.go`，包名与目录一致（如 `package easy`）。
-4. 如果需要在 CLI 中运行该题，需在 `cmd/main.go` 中注册对应的 `command` 条目（目前为手动维护）。
-5. 运行 `make test` 确保全部通过。
+2. 新建目录：`solutions/<分类>/000X_problem_name/`
+3. 添加 `problem.md`（题目描述 + 思路解析 + 复杂度分析）
+4. 添加 `<name>.go`（题解实现）
+5. 添加 `<name>_test.go`（充分覆盖的单元测试 + Benchmark）
+6. 如果需要在 CLI 中运行该题，需在 `cmd/main.go` 中注册对应的 `command` 条目（目前为手动维护）。
+7. 运行 `make test` 确保全部通过。
 
 ## 注意事项
 

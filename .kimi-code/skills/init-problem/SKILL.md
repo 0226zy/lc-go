@@ -56,9 +56,7 @@
 
 ### Step 4: 确定文件结构与命名
 
-根据目标目录的类型，决定文件组织方式：
-
-#### 方式 A：`hot100` 目录（子目录结构）
+所有分类目录（`easy`、`medium`、`hard`、`hot100` 等）统一采用**子目录结构**。
 
 目录命名：`{题号}_{snake_case_英文名}/`
 
@@ -66,30 +64,17 @@
 
 文件清单：
 ```
-solutions/hot100/0001_two_sum/
+solutions/<分类>/0001_two_sum/
 ├── two_sum.go              # 题解存根
 ├── two_sum_test.go         # 测试文件（含 LeetCode 官方示例用例）
 └── problem.md              # 题目说明
 ```
 
-#### 方式 B：`easy` / `medium` / `hard` 等（扁平结构）
-
-文件直接放在目标目录下：
-```
-solutions/easy/
-├── two_sum.go
-└── two_sum_test.go
-```
-
-> **注意**：扁平结构下**不创建** `problem.md`，题目信息通过注释写在 `.go` 文件头部。
-
 ### Step 5: 生成文件内容
 
 #### 5.1 Go 源文件模板
 
-**`hot100` 子目录结构的 package 名**：使用目录名的 snake_case（不含题号前缀）。
-
-**`easy`/`medium`/`hard` 扁平结构的 package 名**：使用目录名本身（如 `easy`、`medium`）。
+**package 名**：使用目录名的 snake_case（不含题号前缀），全部小写、无下划线。
 
 ```go
 package <package_name>
@@ -143,7 +128,7 @@ func Test<CamelCase函数名>(t *testing.T) {
 - 使用 `t.Run(tt.name, func(t *testing.T){ ... })` 命名子测试
 - 断言失败时使用 `t.Errorf` 打印输入、got、want
 
-#### 5.3 `problem.md` 模板（仅 `hot100` 子目录结构创建）
+#### 5.3 `problem.md` 模板
 
 ```markdown
 # <题号>. <中文名> (<英文名>)
@@ -183,19 +168,17 @@ func Test<CamelCase函数名>(t *testing.T) {
 ### Step 6: 创建文件并汇报
 
 1. 使用 `Write` 工具创建所有文件。
-2. 如果 `hot100` 子目录结构，还需在 `cmd/main.go` 中**追加**该题目的命令行示例（参考现有格式，添加一个新的 `command` 结构体到 `commands` 切片中，并添加对应 import）。
+2. 在 `cmd/main.go` 中**追加**该题目的命令行示例（参考现有格式，添加一个新的 `command` 结构体到 `commands` 切片中，并添加对应 import）。
 3. 向用户汇报创建结果：
    - 列出创建的所有文件路径
    - 说明 TODO 占位符的位置，提示用户后续补充
-   - 如果是 `hot100` 结构，提示已更新 `cmd/main.go`
+   - 提示已更新 `cmd/main.go`
 
 ## 命名规范
 
 - **目录/文件名**：全部小写，单词间用下划线 `_` 连接（snake_case）
 - **函数名**：使用 CamelCase，与题目英文名对应（如 `LRUCache`、`AddTwoNumbers`）
-- **Package 名**：
-  - `hot100` 子目录：snake_case 英文名（如 `twosum`、`lrucache`）
-  - 扁平目录：目录名本身（如 `easy`、`medium`、`hard`）
+- **Package 名**：snake_case 英文名，全部小写、无下划线（如 `twosum`、`lrucache`）
 
 ## 注意事项
 

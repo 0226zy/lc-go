@@ -7,7 +7,7 @@ import (
 
 	"github.com/0226zy/lc-go/pkg/datastructures"
 	"github.com/0226zy/lc-go/pkg/utils"
-	"github.com/0226zy/lc-go/solutions/easy"
+	"github.com/0226zy/lc-go/solutions/easy/0001_two_sum"
 	"github.com/0226zy/lc-go/solutions/hot100/0002_add_two_numbers"
 	"github.com/0226zy/lc-go/solutions/hot100/0003_longest_substring_without_repeating_characters"
 	"github.com/0226zy/lc-go/solutions/hot100/0004_median_of_two_sorted_arrays"
@@ -33,7 +33,7 @@ func main() {
 			fn: func() {
 				nums := []int{2, 7, 11, 15}
 				target := 9
-				result := easy.TwoSum(nums, target)
+				result := twosum.TwoSum(nums, target)
 				fmt.Printf("TwoSum(%v, %d) = ", nums, target)
 				utils.PrintIntSlice(result)
 			},
