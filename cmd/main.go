@@ -17,6 +17,7 @@ import (
 	longestincreasingsubsequence "github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
 	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
+	maximumsubarray "github.com/0226zy/lc-go/solutions/hot100/0053_maximum_subarray"
 )
 
 type command struct {
@@ -133,6 +134,16 @@ func main() {
 				k := 2
 				result := subarraysumequalk.SubarraySum(nums, k)
 				fmt.Printf("SubarraySum(%v, %d) = %d\n", nums, k, result)
+			},
+		},
+		{
+			name:        "max-subarray",
+			alias:       "53",
+			description: "最大子数组和 (Maximum Subarray)",
+			fn: func() {
+				nums := []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}
+				result := maximumsubarray.MaxSubArray(nums)
+				fmt.Printf("MaxSubArray(%v) = %d\n", nums, result)
 			},
 		},
 	}
