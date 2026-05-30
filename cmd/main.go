@@ -7,14 +7,15 @@ import (
 
 	"github.com/0226zy/lc-go/pkg/datastructures"
 	"github.com/0226zy/lc-go/pkg/utils"
-	"github.com/0226zy/lc-go/solutions/easy/0001_two_sum"
-	"github.com/0226zy/lc-go/solutions/hot100/0002_add_two_numbers"
-	"github.com/0226zy/lc-go/solutions/hot100/0003_longest_substring_without_repeating_characters"
-	"github.com/0226zy/lc-go/solutions/hot100/0004_median_of_two_sorted_arrays"
-	"github.com/0226zy/lc-go/solutions/hot100/0005_longest_palindromic_substring"
-	"github.com/0226zy/lc-go/solutions/hot100/0011_container_with_most_water"
-	"github.com/0226zy/lc-go/solutions/hot100/0049_group_anagrams"
-	"github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
+	twosum "github.com/0226zy/lc-go/solutions/easy/0001_two_sum"
+	addtwonumbers "github.com/0226zy/lc-go/solutions/hot100/0002_add_two_numbers"
+	longestsubstring "github.com/0226zy/lc-go/solutions/hot100/0003_longest_substring_without_repeating_characters"
+	medianoftwosortedarrays "github.com/0226zy/lc-go/solutions/hot100/0004_median_of_two_sorted_arrays"
+	longestpalindromicsubstring "github.com/0226zy/lc-go/solutions/hot100/0005_longest_palindromic_substring"
+	containerwithmostwater "github.com/0226zy/lc-go/solutions/hot100/0011_container_with_most_water"
+	groupanagrams "github.com/0226zy/lc-go/solutions/hot100/0049_group_anagrams"
+	longestincreasingsubsequence "github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
+	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
 )
 
 type command struct {
@@ -108,6 +109,18 @@ func main() {
 				nums := []int{10, 9, 2, 5, 3, 7, 101, 18}
 				result := longestincreasingsubsequence.LengthOfLIS(nums)
 				fmt.Printf("LengthOfLIS(%v) = %d\n", nums, result)
+			},
+		},
+		{
+			name:        "find-all-anagrams",
+			alias:       "438",
+			description: "找到字符串中所有字母异位词 (Find All Anagrams in a String)",
+			fn: func() {
+				s := "cbaebabacd"
+				p := "abc"
+				result := findallanagramsinastring.FindAnagrams(s, p)
+				fmt.Printf("FindAnagrams(%q, %q) = ", s, p)
+				utils.PrintIntSlice(result)
 			},
 		},
 	}
