@@ -19,6 +19,7 @@ import (
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
 	maximumsubarray "github.com/0226zy/lc-go/solutions/hot100/0053_maximum_subarray"
 	mergeintervals "github.com/0226zy/lc-go/solutions/hot100/0056_merge_intervals"
+	destroyingasteroids "github.com/0226zy/lc-go/solutions/daily/2126_destroying_asteroids"
 )
 
 type command struct {
@@ -155,6 +156,17 @@ func main() {
 				intervals := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
 				result := mergeintervals.Merge(intervals)
 				fmt.Printf("Merge(%v) = %v\n", intervals, result)
+			},
+		},
+		{
+			name:        "destroying-asteroids",
+			alias:       "2126",
+			description: "摧毁小行星 (Destroying Asteroids)",
+			fn: func() {
+				mass := 10
+				asteroids := []int{3, 9, 19, 5, 21}
+				result := destroyingasteroids.AsteroidsDestroyed(mass, asteroids)
+				fmt.Printf("AsteroidsDestroyed(%d, %v) = %v\n", mass, asteroids, result)
 			},
 		},
 	}
