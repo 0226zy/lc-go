@@ -18,6 +18,7 @@ import (
 	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
 	maximumsubarray "github.com/0226zy/lc-go/solutions/hot100/0053_maximum_subarray"
+	mergeintervals "github.com/0226zy/lc-go/solutions/hot100/0056_merge_intervals"
 )
 
 type command struct {
@@ -144,6 +145,16 @@ func main() {
 				nums := []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}
 				result := maximumsubarray.MaxSubArray(nums)
 				fmt.Printf("MaxSubArray(%v) = %d\n", nums, result)
+			},
+		},
+		{
+			name:        "merge-intervals",
+			alias:       "56",
+			description: "合并区间 (Merge Intervals)",
+			fn: func() {
+				intervals := [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}
+				result := mergeintervals.Merge(intervals)
+				fmt.Printf("Merge(%v) = %v\n", intervals, result)
 			},
 		},
 	}
