@@ -21,6 +21,7 @@ import (
 	mergeintervals "github.com/0226zy/lc-go/solutions/hot100/0056_merge_intervals"
 	destroyingasteroids "github.com/0226zy/lc-go/solutions/daily/2126_destroying_asteroids"
 	movezeroes "github.com/0226zy/lc-go/solutions/hot100/0283_move_zeroes"
+	rotatearray "github.com/0226zy/lc-go/solutions/hot100/0189_rotate_array"
 )
 
 type command struct {
@@ -178,6 +179,16 @@ func main() {
 				nums := []int{0, 1, 0, 3, 12}
 				movezeroes.MoveZeroes(nums)
 				fmt.Printf("MoveZeroes([0,1,0,3,12]) = %v\n", nums)
+			},
+		},
+		{
+			name:        "rotate-array",
+			alias:       "189",
+			description: "旋转数组 (Rotate Array)",
+			fn: func() {
+				nums := []int{1, 2, 3, 4, 5, 6, 7}
+				rotatearray.Rotate(nums, 3)
+				fmt.Printf("Rotate([1,2,3,4,5,6,7], 3) = %v\n", nums)
 			},
 		},
 	}
