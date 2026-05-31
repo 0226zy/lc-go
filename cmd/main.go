@@ -22,6 +22,7 @@ import (
 	destroyingasteroids "github.com/0226zy/lc-go/solutions/daily/2126_destroying_asteroids"
 	movezeroes "github.com/0226zy/lc-go/solutions/hot100/0283_move_zeroes"
 	rotatearray "github.com/0226zy/lc-go/solutions/hot100/0189_rotate_array"
+	productofarrayexceptself "github.com/0226zy/lc-go/solutions/hot100/0238_product_of_array_except_self"
 )
 
 type command struct {
@@ -189,6 +190,16 @@ func main() {
 				nums := []int{1, 2, 3, 4, 5, 6, 7}
 				rotatearray.Rotate(nums, 3)
 				fmt.Printf("Rotate([1,2,3,4,5,6,7], 3) = %v\n", nums)
+			},
+		},
+		{
+			name:        "product-except-self",
+			alias:       "238",
+			description: "除自身以外数组的乘积 (Product of Array Except Self)",
+			fn: func() {
+				nums := []int{1, 2, 3, 4}
+				result := productofarrayexceptself.ProductExceptSelf(nums)
+				fmt.Printf("ProductExceptSelf(%v) = %v\n", nums, result)
 			},
 		},
 	}
