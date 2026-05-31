@@ -20,6 +20,7 @@ import (
 	maximumsubarray "github.com/0226zy/lc-go/solutions/hot100/0053_maximum_subarray"
 	mergeintervals "github.com/0226zy/lc-go/solutions/hot100/0056_merge_intervals"
 	destroyingasteroids "github.com/0226zy/lc-go/solutions/daily/2126_destroying_asteroids"
+	movezeroes "github.com/0226zy/lc-go/solutions/hot100/0283_move_zeroes"
 )
 
 type command struct {
@@ -167,6 +168,16 @@ func main() {
 				asteroids := []int{3, 9, 19, 5, 21}
 				result := destroyingasteroids.AsteroidsDestroyed(mass, asteroids)
 				fmt.Printf("AsteroidsDestroyed(%d, %v) = %v\n", mass, asteroids, result)
+			},
+		},
+		{
+			name:        "move-zeroes",
+			alias:       "283",
+			description: "移动零 (Move Zeroes)",
+			fn: func() {
+				nums := []int{0, 1, 0, 3, 12}
+				movezeroes.MoveZeroes(nums)
+				fmt.Printf("MoveZeroes([0,1,0,3,12]) = %v\n", nums)
 			},
 		},
 	}
