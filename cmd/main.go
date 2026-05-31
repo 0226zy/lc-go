@@ -23,6 +23,7 @@ import (
 	movezeroes "github.com/0226zy/lc-go/solutions/hot100/0283_move_zeroes"
 	rotatearray "github.com/0226zy/lc-go/solutions/hot100/0189_rotate_array"
 	productofarrayexceptself "github.com/0226zy/lc-go/solutions/hot100/0238_product_of_array_except_self"
+	setmatrixzeroes "github.com/0226zy/lc-go/solutions/hot100/0073_set_matrix_zeroes"
 )
 
 type command struct {
@@ -200,6 +201,16 @@ func main() {
 				nums := []int{1, 2, 3, 4}
 				result := productofarrayexceptself.ProductExceptSelf(nums)
 				fmt.Printf("ProductExceptSelf(%v) = %v\n", nums, result)
+			},
+		},
+		{
+			name:        "set-matrix-zeroes",
+			alias:       "73",
+			description: "矩阵置零 (Set Matrix Zeroes)",
+			fn: func() {
+				matrix := [][]int{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}}
+				setmatrixzeroes.SetZeroes(matrix)
+				fmt.Printf("SetZeroes([[1,1,1],[1,0,1],[1,1,1]]) = %v\n", matrix)
 			},
 		},
 	}
