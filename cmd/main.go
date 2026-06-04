@@ -24,6 +24,7 @@ import (
 	rotatearray "github.com/0226zy/lc-go/solutions/hot100/0189_rotate_array"
 	productofarrayexceptself "github.com/0226zy/lc-go/solutions/hot100/0238_product_of_array_except_self"
 	setmatrixzeroes "github.com/0226zy/lc-go/solutions/hot100/0073_set_matrix_zeroes"
+	spiralmatrix "github.com/0226zy/lc-go/solutions/hot100/0054_spiral_matrix"
 )
 
 type command struct {
@@ -211,6 +212,16 @@ func main() {
 				matrix := [][]int{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}}
 				setmatrixzeroes.SetZeroes(matrix)
 				fmt.Printf("SetZeroes([[1,1,1],[1,0,1],[1,1,1]]) = %v\n", matrix)
+			},
+		},
+		{
+			name:        "spiral-matrix",
+			alias:       "54",
+			description: "螺旋矩阵 (Spiral Matrix)",
+			fn: func() {
+				matrix := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+				result := spiralmatrix.SpiralOrder(matrix)
+				fmt.Printf("SpiralOrder([[1,2,3],[4,5,6],[7,8,9]]) = %v\n", result)
 			},
 		},
 	}
