@@ -23,6 +23,7 @@ import (
 	longestincreasingsubsequence "github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
 	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
+	intersectionoftwolinkedlists "github.com/0226zy/lc-go/solutions/hot100/0160_intersection_of_two_linked_lists"
 )
 
 func init() {
@@ -44,6 +45,7 @@ func init() {
 		longestIncreasingSubsequenceCmd,
 		findAllAnagramsCmd,
 		subarraySumEqualsKCmd,
+		getIntersectionNodeCmd,
 	)
 }
 
@@ -237,5 +239,33 @@ var subarraySumEqualsKCmd = &cobra.Command{
 		k := 2
 		result := subarraysumequalk.SubarraySum(nums, k)
 		fmt.Printf("SubarraySum(%v, %d) = %d\n", nums, k, result)
+	},
+}
+
+var getIntersectionNodeCmd = &cobra.Command{
+	Use:     "get-intersection-node",
+	Short:   "相交链表 (Intersection of Two Linked Lists)",
+	Aliases: []string{"160"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 创建相交链表: listA = [4,1,8,4,5], listB = [5,6,1,8,4,5]
+		common := &datastructures.ListNode{Val: 8}
+		common.Next = &datastructures.ListNode{Val: 4}
+		common.Next.Next = &datastructures.ListNode{Val: 5}
+
+		headA := &datastructures.ListNode{Val: 4}
+		headA.Next = &datastructures.ListNode{Val: 1}
+		headA.Next.Next = common
+
+		headB := &datastructures.ListNode{Val: 5}
+		headB.Next = &datastructures.ListNode{Val: 6}
+		headB.Next.Next = &datastructures.ListNode{Val: 1}
+		headB.Next.Next.Next = common
+
+		result := intersectionoftwolinkedlists.GetIntersectionNode(headA, headB)
+		if result != nil {
+			fmt.Printf("GetIntersectionNode([4,1,8,4,5], [5,6,1,8,4,5]) = %d\n", result.Val)
+		} else {
+			fmt.Println("GetIntersectionNode() = nil")
+		}
 	},
 }
