@@ -27,6 +27,7 @@ import (
 	reverselinkedlist "github.com/0226zy/lc-go/solutions/hot100/0206_reverse_linked_list"
 	palindromelinkedlist "github.com/0226zy/lc-go/solutions/hot100/0234_palindrome_linked_list"
 	linkedlistcycle "github.com/0226zy/lc-go/solutions/hot100/0141_link_ed_list_cycle"
+	linkedlistcycleii "github.com/0226zy/lc-go/solutions/hot100/0142_link_ed_list_cycle_ii"
 )
 
 func init() {
@@ -52,6 +53,7 @@ func init() {
 		reverseListCmd,
 		isPalindromeCmd,
 		hasCycleCmd,
+		detectCycleCmd,
 	)
 }
 
@@ -248,7 +250,7 @@ var subarraySumEqualsKCmd = &cobra.Command{
 	},
 }
 
-	var getIntersectionNodeCmd = &cobra.Command{
+var getIntersectionNodeCmd = &cobra.Command{
 	Use:     "get-intersection-node",
 	Short:   "相交链表 (Intersection of Two Linked Lists)",
 	Aliases: []string{"160"},
@@ -325,5 +327,39 @@ var hasCycleCmd = &cobra.Command{
 		head3 := datastructures.NewCycleLinkedList([]int{1}, -1)
 		result3 := linkedlistcycle.HasCycleTwoPointers(head3)
 		fmt.Printf("HasCycle([1], pos=-1) = %v\n", result3)
+	},
+}
+
+var detectCycleCmd = &cobra.Command{
+	Use:     "detect-cycle",
+	Short:   "环形链表 II (Linked List Cycle II)",
+	Aliases: []string{"142"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [3,2,0,-4] 有环，pos=1
+		head1 := datastructures.NewCycleLinkedList([]int{3, 2, 0, -4}, 1)
+		result1 := linkedlistcycleii.DetectCycleTwoPointers(head1)
+		if result1 != nil {
+			fmt.Printf("DetectCycle([3,2,0,-4], pos=1) = node with val %d\n", result1.Val)
+		} else {
+			fmt.Println("DetectCycle([3,2,0,-4], pos=1) = nil")
+		}
+
+		// 测试示例2: [1,2] 有环，pos=0
+		head2 := datastructures.NewCycleLinkedList([]int{1, 2}, 0)
+		result2 := linkedlistcycleii.DetectCycleTwoPointers(head2)
+		if result2 != nil {
+			fmt.Printf("DetectCycle([1,2], pos=0) = node with val %d\n", result2.Val)
+		} else {
+			fmt.Println("DetectCycle([1,2], pos=0) = nil")
+		}
+
+		// 测试示例3: [1] 无环，pos=-1
+		head3 := datastructures.NewCycleLinkedList([]int{1}, -1)
+		result3 := linkedlistcycleii.DetectCycleTwoPointers(head3)
+		if result3 != nil {
+			fmt.Printf("DetectCycle([1], pos=-1) = node with val %d\n", result3.Val)
+		} else {
+			fmt.Println("DetectCycle([1], pos=-1) = nil")
+		}
 	},
 }
