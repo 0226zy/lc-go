@@ -25,6 +25,7 @@ import (
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
 	intersectionoftwolinkedlists "github.com/0226zy/lc-go/solutions/hot100/0160_intersection_of_two_linked_lists"
 	reverselinkedlist "github.com/0226zy/lc-go/solutions/hot100/0206_reverse_linked_list"
+	palindromelinkedlist "github.com/0226zy/lc-go/solutions/hot100/0234_palindrome_linked_list"
 )
 
 func init() {
@@ -48,6 +49,7 @@ func init() {
 		subarraySumEqualsKCmd,
 		getIntersectionNodeCmd,
 		reverseListCmd,
+		isPalindromeCmd,
 	)
 }
 
@@ -282,5 +284,22 @@ var reverseListCmd = &cobra.Command{
 		
 		result := reverselinkedlist.ReverseList(head)
 		fmt.Printf("反转后: %s\n", result)
+	},
+}
+
+var isPalindromeCmd = &cobra.Command{
+	Use:     "is-palindrome",
+	Short:   "回文链表 (Palindrome Linked List)",
+	Aliases: []string{"234"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [1,2,2,1]
+		head1 := datastructures.NewLinkedList([]int{1, 2, 2, 1})
+		result1 := palindromelinkedlist.IsPalindrome(head1)
+		fmt.Printf("IsPalindrome([1,2,2,1]) = %v\n", result1)
+
+		// 测试示例2: [1,2]
+		head2 := datastructures.NewLinkedList([]int{1, 2})
+		result2 := palindromelinkedlist.IsPalindrome(head2)
+		fmt.Printf("IsPalindrome([1,2]) = %v\n", result2)
 	},
 }
