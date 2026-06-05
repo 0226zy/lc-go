@@ -25,6 +25,7 @@ import (
 	productofarrayexceptself "github.com/0226zy/lc-go/solutions/hot100/0238_product_of_array_except_self"
 	setmatrixzeroes "github.com/0226zy/lc-go/solutions/hot100/0073_set_matrix_zeroes"
 	spiralmatrix "github.com/0226zy/lc-go/solutions/hot100/0054_spiral_matrix"
+	removenthnodefromendoflist "github.com/0226zy/lc-go/solutions/hot100/0019_remove_nth_node_from_end_of_list"
 )
 
 type command struct {
@@ -108,6 +109,17 @@ func main() {
 				height := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
 				result := containerwithmostwater.MaxArea(height)
 				fmt.Printf("MaxArea(%v) = %d\n", height, result)
+			},
+		},
+		{
+			name:        "remove-nth-node-from-end-of-list",
+			alias:       "19",
+			description: "删除链表的倒数第 N 个结点 (Remove Nth Node From End of List)",
+			fn: func() {
+				head := datastructures.NewLinkedList([]int{1, 2, 3, 4, 5})
+				n := 2
+				result := removenthnodefromendoflist.RemoveNthNodeFromEndOfList(head, n)
+				fmt.Printf("RemoveNthNodeFromEndOfList([1,2,3,4,5], %d) = %v\n", n, result.ToSlice())
 			},
 		},
 		{
