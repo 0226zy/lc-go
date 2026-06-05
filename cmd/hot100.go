@@ -24,6 +24,7 @@ import (
 	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
 	intersectionoftwolinkedlists "github.com/0226zy/lc-go/solutions/hot100/0160_intersection_of_two_linked_lists"
+	reverselinkedlist "github.com/0226zy/lc-go/solutions/hot100/0206_reverse_linked_list"
 )
 
 func init() {
@@ -46,6 +47,7 @@ func init() {
 		findAllAnagramsCmd,
 		subarraySumEqualsKCmd,
 		getIntersectionNodeCmd,
+		reverseListCmd,
 	)
 }
 
@@ -242,7 +244,7 @@ var subarraySumEqualsKCmd = &cobra.Command{
 	},
 }
 
-var getIntersectionNodeCmd = &cobra.Command{
+	var getIntersectionNodeCmd = &cobra.Command{
 	Use:     "get-intersection-node",
 	Short:   "相交链表 (Intersection of Two Linked Lists)",
 	Aliases: []string{"160"},
@@ -267,5 +269,18 @@ var getIntersectionNodeCmd = &cobra.Command{
 		} else {
 			fmt.Println("GetIntersectionNode() = nil")
 		}
+	},
+}
+
+var reverseListCmd = &cobra.Command{
+	Use:     "reverse-list",
+	Short:   "反转链表 (Reverse Linked List)",
+	Aliases: []string{"206"},
+	Run: func(cmd *cobra.Command, args []string) {
+		head := datastructures.NewLinkedList([]int{1, 2, 3, 4, 5})
+		fmt.Printf("原始链表: %s\n", head)
+		
+		result := reverselinkedlist.ReverseList(head)
+		fmt.Printf("反转后: %s\n", result)
 	},
 }
