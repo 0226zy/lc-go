@@ -26,6 +26,7 @@ import (
 	intersectionoftwolinkedlists "github.com/0226zy/lc-go/solutions/hot100/0160_intersection_of_two_linked_lists"
 	reverselinkedlist "github.com/0226zy/lc-go/solutions/hot100/0206_reverse_linked_list"
 	palindromelinkedlist "github.com/0226zy/lc-go/solutions/hot100/0234_palindrome_linked_list"
+	linkedlistcycle "github.com/0226zy/lc-go/solutions/hot100/0141_link_ed_list_cycle"
 )
 
 func init() {
@@ -50,6 +51,7 @@ func init() {
 		getIntersectionNodeCmd,
 		reverseListCmd,
 		isPalindromeCmd,
+		hasCycleCmd,
 	)
 }
 
@@ -301,5 +303,27 @@ var isPalindromeCmd = &cobra.Command{
 		head2 := datastructures.NewLinkedList([]int{1, 2})
 		result2 := palindromelinkedlist.IsPalindrome(head2)
 		fmt.Printf("IsPalindrome([1,2]) = %v\n", result2)
+	},
+}
+
+var hasCycleCmd = &cobra.Command{
+	Use:     "has-cycle",
+	Short:   "环形链表 (Linked List Cycle)",
+	Aliases: []string{"141"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [3,2,0,-4] 有环，pos=1
+		head1 := datastructures.NewCycleLinkedList([]int{3, 2, 0, -4}, 1)
+		result1 := linkedlistcycle.HasCycleTwoPointers(head1)
+		fmt.Printf("HasCycle([3,2,0,-4], pos=1) = %v\n", result1)
+
+		// 测试示例2: [1,2] 有环，pos=0
+		head2 := datastructures.NewCycleLinkedList([]int{1, 2}, 0)
+		result2 := linkedlistcycle.HasCycleTwoPointers(head2)
+		fmt.Printf("HasCycle([1,2], pos=0) = %v\n", result2)
+
+		// 测试示例3: [1] 无环，pos=-1
+		head3 := datastructures.NewCycleLinkedList([]int{1}, -1)
+		result3 := linkedlistcycle.HasCycleTwoPointers(head3)
+		fmt.Printf("HasCycle([1], pos=-1) = %v\n", result3)
 	},
 }
