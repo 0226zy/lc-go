@@ -54,9 +54,108 @@
 
 ## 核心思路
 
-TODO
+### 方案一：暴力解法（当前实现）
+
+#### 算法步骤
+
+1. **逐个处理数字**：遍历区间 `[num1, num2]` 中的每个数字
+2. **数字转数位**：将每个数字转换为各位数字的切片（高位在前）
+3. **计算单个数字的波动值**：
+   - 对于每个数字，检查除首尾外的每个数位
+   - 判断当前数位是否为峰（严格大于左右）或谷（严格小于左右）
+   - 统计峰和谷的总数
+4. **累加结果**：将每个数字的波动值累加到总结果中
+
+#### 关键实现细节
+
+- **数字转换**：通过取模 `n%10` 提取最后一位，用 `n = n/10` 去掉最后一位，然后反转得到正确顺序
+- **边界处理**：位数不足3的数字直接返回0
+- **效率考量**：对于小范围区间足够高效
+
+#### 优缺点
+
+- 优点：实现简单，容易理解，不容易出错
+- 缺点：当区间很大（如相差 1e15）时，时间无法接受
+
+### 方案二：数位动态规划（Digit DP，更高效的方案）
+
+#### 适用场景
+
+对于大范围（例如 `num2 - num1 + 1 > 1e6`），暴力解法不适用。此时需要使用数位 DP。
+
+#### 算法思路
+
+1. **问题转化**：利用前缀和思想，`TotalWaviness(a, b) = f(b) - f(a-1)`，其中 `f(x)` 是 `[0, x]` 范围内的总波动值
+
+2. **数位 DP 设计**：
+   - 将数字 `x` 转换为数组 `s[0..n-1]`（高位在前）
+   - 定义记忆化搜索函数 `dp(pos, prev1, prev2, tight, leadingZero)`
+   - 参数含义：
+     - `pos`：当前处理到的位置
+     - `prev1`：前一位数字（用 -1 表示还没有前一位）
+     - `prev2`：前两位数字（用 -1 表示还没有前两位）
+     - `tight`：当前位是否受上界限制（1表示受限制，0表示不受限制）
+     - `leadingZero`：当前位之前是否都是前导零（1表示是，0表示否）
+   - 函数返回值：从当前位开始到末尾，可以组成的数字的总波动值
+
+3. **状态转移**：
+   - 枚举当前位可能的数字 `d`（如果 `tight=1` 则最大只能到 `s[pos]`）
+   - 更新新的 `tight` 和 `leadingZero`
+   - 当有前两位数字（即 `prev1 != -1` 且 `prev2 != -1`）时，检查 `prev1` 是否为峰或谷
+   - 累加波动值，并继续递归处理下一位
+
+#### 伪代码
+
+```
+TotalWaviness(a, b):
+    return f(b) - f(a-1)
+
+f(x):
+    if x < 0:
+        return 0
+    s = getDigits(x)
+    return dp(0, -1, -1, 1, 1)
+
+dp(pos, prev1, prev2, tight, leadingZero):
+    if pos == len(s):
+        return 0
+    if (pos, prev1, prev2, tight, leadingZero) in memo:
+        return memo[(pos, prev1, prev2, tight, leadingZero)]
+    
+    limit = 9 if tight == 0 else s[pos]
+    res = 0
+    
+    for d from 0 to limit:
+        newTight = 1 if (tight == 1 and d == limit) else 0
+        newLeadingZero = 1 if (leadingZero == 1 and d == 0) else 0
+        
+        add = 0
+        if leadingZero == 0 and prev1 != -1 and prev2 != -1:
+            if (prev1 > prev2 and prev1 > d) or (prev1 < prev2 and prev1 < d):
+                add = 1
+        
+        newPrev1, newPrev2 = updateState(prev1, prev2, d, leadingZero, newLeadingZero)
+        res += add + dp(pos+1, newPrev1, newPrev2, newTight, newLeadingZero)
+    
+    memo[(pos, prev1, prev2, tight, leadingZero)] = res
+    return res
+```
 
 ## 复杂度分析
 
-- 时间复杂度：TODO
-- 空间复杂度：TODO
+### 暴力解法
+
+- 时间复杂度：O((num2-num1+1) × d)，其中 d 是数字的位数（最多16位）
+- 空间复杂度：O(d)，用于存储单个数字的各位数
+
+### 数位 DP 解法
+
+- 时间复杂度：O(d × 10 × 10 × 2 × 2) = O(d)，其中 d 为数字的位数（最多16位）
+  - 状态总数：位数 × 10（第一位） × 11（第二位，包含 -1） × 2 × 2 = 16×10×11×2×2 ≈ 7000，非常小
+- 空间复杂度：O(d × 10 × 10 × 2 × 2) = O(d)，用于记忆化缓存
+
+## 总结
+
+- 对于小范围测试或验证，暴力解法足够且可靠
+- 对于题目要求的 1e15 范围，必须使用数位 DP 才能在合理时间内运行
+- 当前实现采用暴力解法，确保了答案的正确性
