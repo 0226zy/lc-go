@@ -29,6 +29,7 @@ import (
 	linkedlistcycle "github.com/0226zy/lc-go/solutions/hot100/0141_link_ed_list_cycle"
 	linkedlistcycleii "github.com/0226zy/lc-go/solutions/hot100/0142_link_ed_list_cycle_ii"
 	mergetwosortedlists "github.com/0226zy/lc-go/solutions/hot100/0021_merge_two_sorted_lists"
+	swapnodesinpairs "github.com/0226zy/lc-go/solutions/hot100/0024_swap_nodes_in_pairs"
 )
 
 func init() {
@@ -56,6 +57,7 @@ func init() {
 		hasCycleCmd,
 		detectCycleCmd,
 		mergeTwoListsCmd,
+		swapPairsCmd,
 	)
 }
 
@@ -367,7 +369,7 @@ var hasCycleCmd = &cobra.Command{
 	}
 
 var mergeTwoListsCmd = &cobra.Command{
-	Use:     "merge-two-lists",
+	Use:     "merge-the-lists",
 	Short:   "合并两个有序链表 (Merge Two Sorted Lists)",
 	Aliases: []string{"21"},
 	Run: func(cmd *cobra.Command, args []string) {
@@ -382,5 +384,27 @@ var mergeTwoListsCmd = &cobra.Command{
 		list4 := datastructures.NewLinkedList([]int{1, 3, 4})
 		result2 := mergetwosortedlists.MergeTwoListsRecursive(list3, list4)
 		fmt.Printf("MergeTwoListsRecursive([1,2,4], [1,3,4]) = %v\n", result2.ToSlice())
+	},
+}
+
+var swapPairsCmd = &cobra.Command{
+	Use:     "swap-pairs",
+	Short:   "两两交换链表中的节点 (Swap Nodes in Pairs)",
+	Aliases: []string{"24"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [1,2,3,4]
+		head1 := datastructures.NewLinkedList([]int{1, 2, 3, 4})
+		result1 := swapnodesinpairs.SwapPairsIterative(head1)
+		fmt.Printf("SwapPairsIterative([1,2,3,4]) = %v\n", result1.ToSlice())
+
+		// 测试递归法
+		head2 := datastructures.NewLinkedList([]int{1, 2, 3, 4})
+		result2 := swapnodesinpairs.SwapPairsRecursive(head2)
+		fmt.Printf("SwapPairsRecursive([1,2,3,4]) = %v\n", result2.ToSlice())
+
+		// 测试奇数长度: [1,2,3]
+		head3 := datastructures.NewLinkedList([]int{1, 2, 3})
+		result3 := swapnodesinpairs.SwapPairsIterative(head3)
+		fmt.Printf("SwapPairsIterative([1,2,3]) = %v\n", result3.ToSlice())
 	},
 }
