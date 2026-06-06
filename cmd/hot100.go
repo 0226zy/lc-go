@@ -30,6 +30,7 @@ import (
 	linkedlistcycleii "github.com/0226zy/lc-go/solutions/hot100/0142_link_ed_list_cycle_ii"
 	mergetwosortedlists "github.com/0226zy/lc-go/solutions/hot100/0021_merge_two_sorted_lists"
 	swapnodesinpairs "github.com/0226zy/lc-go/solutions/hot100/0024_swap_nodes_in_pairs"
+	reversenodesinkgroup "github.com/0226zy/lc-go/solutions/hot100/0025_reverse_nodes_in_k_group"
 )
 
 func init() {
@@ -58,6 +59,7 @@ func init() {
 		detectCycleCmd,
 		mergeTwoListsCmd,
 		swapPairsCmd,
+		reverseNodesInKGroupCmd,
 	)
 }
 
@@ -406,5 +408,27 @@ var swapPairsCmd = &cobra.Command{
 		head3 := datastructures.NewLinkedList([]int{1, 2, 3})
 		result3 := swapnodesinpairs.SwapPairsIterative(head3)
 		fmt.Printf("SwapPairsIterative([1,2,3]) = %v\n", result3.ToSlice())
+	},
+}
+
+var reverseNodesInKGroupCmd = &cobra.Command{
+	Use:     "reverse-k-group",
+	Short:   "K个一组翻转链表 (Reverse Nodes in k-Group)",
+	Aliases: []string{"25"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [1,2,3,4,5], k=2
+		head1 := datastructures.NewLinkedList([]int{1, 2, 3, 4, 5})
+		result1 := reversenodesinkgroup.ReverseNodesInKGroupIterative(head1, 2)
+		fmt.Printf("ReverseNodesInKGroupIterative([1,2,3,4,5], 2) = %v\n", result1.ToSlice())
+
+		// 测试示例2: [1,2,3,4,5], k=3
+		head2 := datastructures.NewLinkedList([]int{1, 2, 3, 4, 5})
+		result2 := reversenodesinkgroup.ReverseNodesInKGroupIterative(head2, 3)
+		fmt.Printf("ReverseNodesInKGroupIterative([1,2,3,4,5], 3) = %v\n", result2.ToSlice())
+
+		// 测试递归法: [1,2,3,4,5], k=2
+		head3 := datastructures.NewLinkedList([]int{1, 2, 3, 4, 5})
+		result3 := reversenodesinkgroup.ReverseNodesInKGroupRecursive(head3, 2)
+		fmt.Printf("ReverseNodesInKGroupRecursive([1,2,3,4,5], 2) = %v\n", result3.ToSlice())
 	},
 }
