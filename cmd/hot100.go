@@ -32,6 +32,7 @@ import (
 	swapnodesinpairs "github.com/0226zy/lc-go/solutions/hot100/0024_swap_nodes_in_pairs"
 	reversenodesinkgroup "github.com/0226zy/lc-go/solutions/hot100/0025_reverse_nodes_in_k_group"
 	copyrandomlist "github.com/0226zy/lc-go/solutions/hot100/0138_copy_list_with_random_pointer"
+	sortlist "github.com/0226zy/lc-go/solutions/hot100/0148_sort_list"
 )
 
 func init() {
@@ -62,6 +63,7 @@ func init() {
 		swapPairsCmd,
 		reverseNodesInKGroupCmd,
 		copyRandomListCmd,
+		sortListCmd,
 	)
 }
 
@@ -463,5 +465,27 @@ var copyRandomListCmd = &cobra.Command{
 		)
 		result3 := copyrandomlist.CopyRandomListHashTable(head3)
 		fmt.Printf("CopyRandomListHashTable(示例1) = %v\n", datastructures.RandomListToSlice(result3))
+	},
+}
+
+var sortListCmd = &cobra.Command{
+	Use:     "sort-list",
+	Short:   "排序链表 (Sort List)",
+	Aliases: []string{"148"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [4,2,1,3]
+		head1 := datastructures.NewLinkedList([]int{4, 2, 1, 3})
+		result1 := sortlist.SortListBottomUp(head1)
+		fmt.Printf("SortListBottomUp([4,2,1,3]) = %v\n", result1.ToSlice())
+
+		// 测试示例2: [-1,5,3,4,0]
+		head2 := datastructures.NewLinkedList([]int{-1, 5, 3, 4, 0})
+		result2 := sortlist.SortListBottomUp(head2)
+		fmt.Printf("SortListBottomUp([-1,5,3,4,0]) = %v\n", result2.ToSlice())
+
+		// 测试自顶向下法: [4,2,1,3]
+		head3 := datastructures.NewLinkedList([]int{4, 2, 1, 3})
+		result3 := sortlist.SortListTopDown(head3)
+		fmt.Printf("SortListTopDown([4,2,1,3]) = %v\n", result3.ToSlice())
 	},
 }
