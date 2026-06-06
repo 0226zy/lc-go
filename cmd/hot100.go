@@ -28,6 +28,7 @@ import (
 	palindromelinkedlist "github.com/0226zy/lc-go/solutions/hot100/0234_palindrome_linked_list"
 	linkedlistcycle "github.com/0226zy/lc-go/solutions/hot100/0141_link_ed_list_cycle"
 	linkedlistcycleii "github.com/0226zy/lc-go/solutions/hot100/0142_link_ed_list_cycle_ii"
+	mergetwosortedlists "github.com/0226zy/lc-go/solutions/hot100/0021_merge_two_sorted_lists"
 )
 
 func init() {
@@ -54,6 +55,7 @@ func init() {
 		isPalindromeCmd,
 		hasCycleCmd,
 		detectCycleCmd,
+		mergeTwoListsCmd,
 	)
 }
 
@@ -330,36 +332,55 @@ var hasCycleCmd = &cobra.Command{
 	},
 }
 
-var detectCycleCmd = &cobra.Command{
-	Use:     "detect-cycle",
-	Short:   "环形链表 II (Linked List Cycle II)",
-	Aliases: []string{"142"},
+	var detectCycleCmd = &cobra.Command{
+		Use:     "detect-cycle",
+		Short:   "环形链表 II (Linked List Cycle II)",
+		Aliases: []string{"142"},
+		Run: func(cmd *cobra.Command, args []string) {
+			// 测试示例1: [3,2,0,-4] 有环，pos=1
+			head1 := datastructures.NewCycleLinkedList([]int{3, 2, 0, -4}, 1)
+			result1 := linkedlistcycleii.DetectCycleTwoPointers(head1)
+			if result1 != nil {
+				fmt.Printf("DetectCycle([3,2,0,-4], pos=1) = node with val %d\n", result1.Val)
+			} else {
+				fmt.Println("DetectCycle([3,2,0,-4], pos=1) = nil")
+			}
+
+			// 测试示例2: [1,2] 有环，pos=0
+			head2 := datastructures.NewCycleLinkedList([]int{1, 2}, 0)
+			result2 := linkedlistcycleii.DetectCycleTwoPointers(head2)
+			if result2 != nil {
+				fmt.Printf("DetectCycle([1,2], pos=0) = node with val %d\n", result2.Val)
+			} else {
+				fmt.Println("DetectCycle([1,2], pos=0) = nil")
+			}
+
+			// 测试示例3: [1] 无环，pos=-1
+			head3 := datastructures.NewCycleLinkedList([]int{1}, -1)
+			result3 := linkedlistcycleii.DetectCycleTwoPointers(head3)
+			if result3 != nil {
+				fmt.Printf("DetectCycle([1], pos=-1) = node with val %d\n", result3.Val)
+			} else {
+				fmt.Println("DetectCycle([1], pos=-1) = nil")
+			}
+		},
+	}
+
+var mergeTwoListsCmd = &cobra.Command{
+	Use:     "merge-two-lists",
+	Short:   "合并两个有序链表 (Merge Two Sorted Lists)",
+	Aliases: []string{"21"},
 	Run: func(cmd *cobra.Command, args []string) {
-		// 测试示例1: [3,2,0,-4] 有环，pos=1
-		head1 := datastructures.NewCycleLinkedList([]int{3, 2, 0, -4}, 1)
-		result1 := linkedlistcycleii.DetectCycleTwoPointers(head1)
-		if result1 != nil {
-			fmt.Printf("DetectCycle([3,2,0,-4], pos=1) = node with val %d\n", result1.Val)
-		} else {
-			fmt.Println("DetectCycle([3,2,0,-4], pos=1) = nil")
-		}
+		// 测试示例1: [1,2,4] 和 [1,3,4]
+		list1 := datastructures.NewLinkedList([]int{1, 2, 4})
+		list2 := datastructures.NewLinkedList([]int{1, 3, 4})
+		result := mergetwosortedlists.MergeTwoListsIterative(list1, list2)
+		fmt.Printf("MergeTwoListsIterative([1,2,4], [1,3,4]) = %v\n", result.ToSlice())
 
-		// 测试示例2: [1,2] 有环，pos=0
-		head2 := datastructures.NewCycleLinkedList([]int{1, 2}, 0)
-		result2 := linkedlistcycleii.DetectCycleTwoPointers(head2)
-		if result2 != nil {
-			fmt.Printf("DetectCycle([1,2], pos=0) = node with val %d\n", result2.Val)
-		} else {
-			fmt.Println("DetectCycle([1,2], pos=0) = nil")
-		}
-
-		// 测试示例3: [1] 无环，pos=-1
-		head3 := datastructures.NewCycleLinkedList([]int{1}, -1)
-		result3 := linkedlistcycleii.DetectCycleTwoPointers(head3)
-		if result3 != nil {
-			fmt.Printf("DetectCycle([1], pos=-1) = node with val %d\n", result3.Val)
-		} else {
-			fmt.Println("DetectCycle([1], pos=-1) = nil")
-		}
+		// 测试递归法
+		list3 := datastructures.NewLinkedList([]int{1, 2, 4})
+		list4 := datastructures.NewLinkedList([]int{1, 3, 4})
+		result2 := mergetwosortedlists.MergeTwoListsRecursive(list3, list4)
+		fmt.Printf("MergeTwoListsRecursive([1,2,4], [1,3,4]) = %v\n", result2.ToSlice())
 	},
 }
