@@ -31,6 +31,7 @@ import (
 	mergetwosortedlists "github.com/0226zy/lc-go/solutions/hot100/0021_merge_two_sorted_lists"
 	swapnodesinpairs "github.com/0226zy/lc-go/solutions/hot100/0024_swap_nodes_in_pairs"
 	reversenodesinkgroup "github.com/0226zy/lc-go/solutions/hot100/0025_reverse_nodes_in_k_group"
+	copyrandomlist "github.com/0226zy/lc-go/solutions/hot100/0138_copy_list_with_random_pointer"
 )
 
 func init() {
@@ -60,6 +61,7 @@ func init() {
 		mergeTwoListsCmd,
 		swapPairsCmd,
 		reverseNodesInKGroupCmd,
+		copyRandomListCmd,
 	)
 }
 
@@ -430,5 +432,36 @@ var reverseNodesInKGroupCmd = &cobra.Command{
 		head3 := datastructures.NewLinkedList([]int{1, 2, 3, 4, 5})
 		result3 := reversenodesinkgroup.ReverseNodesInKGroupRecursive(head3, 2)
 		fmt.Printf("ReverseNodesInKGroupRecursive([1,2,3,4,5], 2) = %v\n", result3.ToSlice())
+	},
+}
+
+var copyRandomListCmd = &cobra.Command{
+	Use:     "copy-random-list",
+	Short:   "随机链表的复制 (Copy List with Random Pointer)",
+	Aliases: []string{"138"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [[7,null],[13,0],[11,4],[10,2],[1,0]]
+		head1 := datastructures.NewRandomLinkedList(
+			[]int{7, 13, 11, 10, 1},
+			[]int{-1, 0, 4, 2, 0},
+		)
+		result1 := copyrandomlist.CopyRandomListInPlace(head1)
+		fmt.Printf("CopyRandomListInPlace(示例1) = %v\n", datastructures.RandomListToSlice(result1))
+
+		// 测试示例2: [[1,1],[2,1]]
+		head2 := datastructures.NewRandomLinkedList(
+			[]int{1, 2},
+			[]int{1, 0},
+		)
+		result2 := copyrandomlist.CopyRandomListInPlace(head2)
+		fmt.Printf("CopyRandomListInPlace(示例2) = %v\n", datastructures.RandomListToSlice(result2))
+
+		// 测试哈希表法
+		head3 := datastructures.NewRandomLinkedList(
+			[]int{7, 13, 11, 10, 1},
+			[]int{-1, 0, 4, 2, 0},
+		)
+		result3 := copyrandomlist.CopyRandomListHashTable(head3)
+		fmt.Printf("CopyRandomListHashTable(示例1) = %v\n", datastructures.RandomListToSlice(result3))
 	},
 }
