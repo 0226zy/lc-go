@@ -136,8 +136,8 @@
    - 空间复杂度：O(log k)
 
 2. **最小堆实现**：
-   - Go 标准库没有优先队列，需要手动实现
-   - 使用 `container/heap` 接口实现最小堆
+   - 手写最小堆，不依赖 `container/heap`
+   - 参考 `container/heap` 的接口设计，实现 `Push`、`Pop`、`heapifyUp`、`heapifyDown` 方法
    - 时间复杂度：O(n log k)
    - 空间复杂度：O(k)
 
