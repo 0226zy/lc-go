@@ -1,9 +1,29 @@
 package mergeksortedlists
 
 import (
-	"github.com/0226zy/lc-go/pkg/algorithms/sorts"
+	"container/heap"
+
 	"github.com/0226zy/lc-go/pkg/datastructures"
 )
+
+// MinHeap 最小堆，实现 heap.Interface 接口
+type MinHeap []*datastructures.ListNode
+
+func (h MinHeap) Len() int            { return len(h) }
+func (h MinHeap) Less(i, j int) bool { return h[i].Val < h[j].Val }
+func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MinHeap) Push(x any) {
+	*h = append(*h, x.(*datastructures.ListNode))
+}
+
+func (h *MinHeap) Pop() any {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
 
 // MergeKListsDivideConquer 合并 K 个升序链表 - 分治合并法（最优解）
 // 使用分治思想，将 k 个链表两两配对合并
@@ -67,19 +87,17 @@ func MergeKListsSequential(lists []*datastructures.ListNode) *datastructures.Lis
 	return result
 }
 
-// MergeKListsMinHeap 合并 K 个升序链表 - 最小堆法（手写堆）
-// 使用最小堆维护所有链表的头节点，每次取出最小值
+// MergeKListsMinHeap 合并 K 个升序链表 - 最小堆法
+// 使用标准库 container/heap 实现最小堆
 // 时间复杂度: O(n log k)  空间复杂度: O(k)
 func MergeKListsMinHeap(lists []*datastructures.ListNode) *datastructures.ListNode {
-	// 创建最小堆，使用 pkg/algorithms/sorts 包的通用最小堆
-	h := sorts.NewMinHeap(func(a, b *datastructures.ListNode) bool {
-		return a.Val < b.Val
-	})
+	// 创建最小堆
+	h := &MinHeap{}
 
 	// 将每个非空链表的头节点加入堆
 	for _, list := range lists {
 		if list != nil {
-			h.Push(list)
+			heap.Push(h, list)
 		}
 	}
 
@@ -90,7 +108,7 @@ func MergeKListsMinHeap(lists []*datastructures.ListNode) *datastructures.ListNo
 	// 循环直到堆为空
 	for h.Len() > 0 {
 		// 从堆中取出最小节点
-		minNode := h.Pop()
+		minNode := heap.Pop(h).(*datastructures.ListNode)
 
 		// 将最小节点加入结果链表
 		curr.Next = minNode
@@ -98,7 +116,7 @@ func MergeKListsMinHeap(lists []*datastructures.ListNode) *datastructures.ListNo
 
 		// 如果最小节点有下一个节点，将其加入堆
 		if minNode.Next != nil {
-			h.Push(minNode.Next)
+			heap.Push(h, minNode.Next)
 		}
 	}
 

@@ -136,9 +136,8 @@
    - 空间复杂度：O(log k)
 
 2. **最小堆实现**：
-   - 手写通用最小堆，不依赖 `container/heap`
-   - 实现在 `pkg/sort/minheap.go`，使用 Go 泛型支持任意类型
-   - 通过 `LessFunc` 比较函数实现类型通用性
+   - 使用 Go 标准库 `container/heap`
+   - 实现 `heap.Interface` 接口（`Len`, `Less`, `Swap`, `Push`, `Pop`）
    - 时间复杂度：O(n log k)
    - 空间复杂度：O(k)
 
