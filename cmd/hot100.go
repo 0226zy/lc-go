@@ -33,6 +33,7 @@ import (
 	reversenodesinkgroup "github.com/0226zy/lc-go/solutions/hot100/0025_reverse_nodes_in_k_group"
 	copyrandomlist "github.com/0226zy/lc-go/solutions/hot100/0138_copy_list_with_random_pointer"
 	sortlist "github.com/0226zy/lc-go/solutions/hot100/0148_sort_list"
+	mergeksortedlists "github.com/0226zy/lc-go/solutions/hot100/0023_merge_k_sorted_lists"
 )
 
 func init() {
@@ -64,6 +65,7 @@ func init() {
 		reverseNodesInKGroupCmd,
 		copyRandomListCmd,
 		sortListCmd,
+		mergeKListsCmd,
 	)
 }
 
@@ -487,5 +489,39 @@ var sortListCmd = &cobra.Command{
 		head3 := datastructures.NewLinkedList([]int{4, 2, 1, 3})
 		result3 := sortlist.SortListTopDown(head3)
 		fmt.Printf("SortListTopDown([4,2,1,3]) = %v\n", result3.ToSlice())
+	},
+}
+
+var mergeKListsCmd = &cobra.Command{
+	Use:     "merge-k-lists",
+	Short:   "合并 K 个升序链表 (Merge k Sorted Lists)",
+	Aliases: []string{"23"},
+	Run: func(cmd *cobra.Command, args []string) {
+		// 测试示例1: [[1,4,5],[1,3,4],[2,6]]
+		lists1 := []*datastructures.ListNode{
+			datastructures.NewLinkedList([]int{1, 4, 5}),
+			datastructures.NewLinkedList([]int{1, 3, 4}),
+			datastructures.NewLinkedList([]int{2, 6}),
+		}
+		result1 := mergeksortedlists.MergeKListsDivideConquer(lists1)
+		fmt.Printf("MergeKListsDivideConquer(示例1) = %v\n", result1.ToSlice())
+
+		// 测试最小堆法: [[1,4,5],[1,3,4],[2,6]]
+		lists2 := []*datastructures.ListNode{
+			datastructures.NewLinkedList([]int{1, 4, 5}),
+			datastructures.NewLinkedList([]int{1, 3, 4}),
+			datastructures.NewLinkedList([]int{2, 6}),
+		}
+		result2 := mergeksortedlists.MergeKListsMinHeap(lists2)
+		fmt.Printf("MergeKListsMinHeap(示例1) = %v\n", result2.ToSlice())
+
+		// 测试顺序合并法: [[1,4,5],[1,3,4],[2,6]]
+		lists3 := []*datastructures.ListNode{
+			datastructures.NewLinkedList([]int{1, 4, 5}),
+			datastructures.NewLinkedList([]int{1, 3, 4}),
+			datastructures.NewLinkedList([]int{2, 6}),
+		}
+		result3 := mergeksortedlists.MergeKListsSequential(lists3)
+		fmt.Printf("MergeKListsSequential(示例1) = %v\n", result3.ToSlice())
 	},
 }
