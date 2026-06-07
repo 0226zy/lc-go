@@ -1,8 +1,8 @@
 package mergeksortedlists
 
 import (
+	"github.com/0226zy/lc-go/pkg/algorithms/sorts"
 	"github.com/0226zy/lc-go/pkg/datastructures"
-	"github.com/0226zy/lc-go/pkg/sort"
 )
 
 // MergeKListsDivideConquer 合并 K 个升序链表 - 分治合并法（最优解）
@@ -71,8 +71,8 @@ func MergeKListsSequential(lists []*datastructures.ListNode) *datastructures.Lis
 // 使用最小堆维护所有链表的头节点，每次取出最小值
 // 时间复杂度: O(n log k)  空间复杂度: O(k)
 func MergeKListsMinHeap(lists []*datastructures.ListNode) *datastructures.ListNode {
-	// 创建最小堆，使用 pkg/sort 包的通用最小堆
-	h := sort.NewMinHeap(func(a, b *datastructures.ListNode) bool {
+	// 创建最小堆，使用 pkg/algorithms/sorts 包的通用最小堆
+	h := sorts.NewMinHeap(func(a, b *datastructures.ListNode) bool {
 		return a.Val < b.Val
 	})
 

@@ -1,4 +1,4 @@
-package sort
+package sorts
 
 // Heap 通用堆实现（支持最小堆和最大堆）
 // 通过 lessFunc 比较函数决定堆的类型：
