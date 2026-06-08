@@ -42,8 +42,28 @@ func TestTreeTraversal_PreorderRecursive(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{1, 2, 3},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{1, 2, 5},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{1, 3, 6},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{1, 2, 4, 3, 7},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{1, 2, 4, 8, 9, 5, 10, 11, 3, 6, 12, 13, 7, 14, 15},
 		},
 	}
 	for _, tc := range tests {
@@ -85,8 +105,28 @@ func TestTreeTraversal_PreorderIterative(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{1, 2, 3},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{1, 2, 5},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{1, 3, 6},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{1, 2, 4, 3, 7},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{1, 2, 4, 8, 9, 5, 10, 11, 3, 6, 12, 13, 7, 14, 15},
 		},
 	}
 	for _, tc := range tests {
@@ -128,8 +168,28 @@ func TestTreeTraversal_InorderRecursive(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{1, 2, 3},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{2, 5, 1},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{1, 3, 6},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{4, 2, 1, 3, 7},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 13, 3, 14, 7, 15},
 		},
 	}
 	for _, tc := range tests {
@@ -171,8 +231,28 @@ func TestTreeTraversal_InorderIterative(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{1, 2, 3},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{2, 5, 1},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{1, 3, 6},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{4, 2, 1, 3, 7},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 13, 3, 14, 7, 15},
 		},
 	}
 	for _, tc := range tests {
@@ -214,8 +294,28 @@ func TestTreeTraversal_PostorderRecursive(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{3, 2, 1},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{5, 2, 1},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{6, 3, 1},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{4, 2, 7, 3, 1},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{8, 9, 4, 10, 11, 5, 2, 12, 13, 6, 14, 15, 7, 3, 1},
 		},
 	}
 	for _, tc := range tests {
@@ -257,8 +357,28 @@ func TestTreeTraversal_PostorderIterative(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{3, 2, 1},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{5, 2, 1},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{6, 3, 1},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{4, 2, 7, 3, 1},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{8, 9, 4, 10, 11, 5, 2, 12, 13, 6, 14, 15, 7, 3, 1},
 		},
 	}
 	for _, tc := range tests {
@@ -300,8 +420,28 @@ func TestTreeTraversal_LevelOrder(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: []int{1, 2, 3},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: []int{1, 2, 5},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: []int{1, 3, 6},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: []int{1, 2, 3, 4, 7},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 		},
 	}
 	for _, tc := range tests {
@@ -343,8 +483,28 @@ func TestTreeTraversal_LevelOrderByLevel(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: [][]int{{1}, {2}, {3}},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: [][]int{{1}, {2}, {5}},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: [][]int{{1}, {3}, {6}},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: [][]int{{1}, {2, 3}, {4, 7}},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: [][]int{{1}, {2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11, 12, 13, 14, 15}},
 		},
 	}
 	for _, tc := range tests {
@@ -386,8 +546,28 @@ func TestTreeTraversal_LevelOrderZigzag(t *testing.T) {
 		},
 		{
 			name: "右斜树",
-			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, math.MinInt32, 3}),
+			root: buildTree([]int{1, math.MinInt32, 2, math.MinInt32, 3}),
 			want: [][]int{{1}, {2}, {3}},
+		},
+		{
+			name: "只有左子树非完全",
+			root: buildTree([]int{1, 2, math.MinInt32, math.MinInt32, 5}),
+			want: [][]int{{1}, {2}, {5}},
+		},
+		{
+			name: "只有右子树非完全",
+			root: buildTree([]int{1, math.MinInt32, 3, math.MinInt32, 6}),
+			want: [][]int{{1}, {3}, {6}},
+		},
+		{
+			name: "不对称树",
+			root: buildTree([]int{1, 2, 3, 4, math.MinInt32, math.MinInt32, 7}),
+			want: [][]int{{1}, {3, 2}, {4, 7}},
+		},
+		{
+			name: "四层完全二叉树",
+			root: buildTree([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}),
+			want: [][]int{{1}, {3, 2}, {4, 5, 6, 7}, {15, 14, 13, 12, 11, 10, 9, 8}},
 		},
 	}
 	for _, tc := range tests {
