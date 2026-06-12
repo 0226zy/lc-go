@@ -17,11 +17,13 @@ func NewMinHeap() *MinHeap {
 // NewMinHeapFromSlice 从切片构建最小堆（堆化）
 // 时间复杂度: O(n)
 func NewMinHeapFromSlice(nums []int) *MinHeap {
-	ret := NewMinHeap()
-	for _, num := range nums {
-		ret.Push(num)
+	h := &MinHeap{data: make([]int, len(nums))}
+	copy(h.data, nums)
+	// 从最后一个非叶子节点向前下沉，O(n) 建堆
+	for i := len(h.data)/2 - 1; i >= 0; i-- {
+		h.down(i)
 	}
-	return ret
+	return h
 }
 
 // Push 向堆中插入元素
@@ -64,36 +66,31 @@ func (h *MinHeap) Data() []int {
 	return ret
 }
 func (h *MinHeap) up(idx int) {
-	for idx >= 0 {
-		pattern := (idx - 1) / 2
-		if h.data[idx] >= h.data[pattern] {
+	for idx > 0 {
+		parent := (idx - 1) / 2
+		if h.data[idx] >= h.data[parent] {
 			break
 		}
-		h.data[idx], h.data[pattern] = h.data[pattern], h.data[idx]
-		idx = pattern
+		h.data[idx], h.data[parent] = h.data[parent], h.data[idx]
+		idx = parent
 	}
 }
 func (h *MinHeap) down(idx int) {
-	currIdx := idx
 	n := h.Size()
 	for {
-		minIdx := currIdx
-		left, right := 2*currIdx+1, 2*currIdx+2
+		minIdx := idx
+		left, right := 2*idx+1, 2*idx+2
 
-		if left < n && h.data[left] < h.data[currIdx] {
+		if left < n && h.data[left] < h.data[minIdx] {
 			minIdx = left
 		}
-		if right < n && h.data[right] < h.data[currIdx] {
+		if right < n && h.data[right] < h.data[minIdx] {
 			minIdx = right
 		}
-		// 没有找到可以交换的点，左右节点都比当前节点小
 		if minIdx == idx {
 			break
 		}
-		h.data[currIdx], h.data[minIdx] = h.data[minIdx], h.data[currIdx]
-
-		// 处理被交换后的节点
-		currIdx = minIdx
-
+		h.data[idx], h.data[minIdx] = h.data[minIdx], h.data[idx]
+		idx = minIdx
 	}
 }
