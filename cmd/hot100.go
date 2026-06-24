@@ -21,6 +21,12 @@ import (
 	productofarrayexceptself "github.com/0226zy/lc-go/solutions/hot100/0238_product_of_array_except_self"
 	movezeroes "github.com/0226zy/lc-go/solutions/hot100/0283_move_zeroes"
 	longestincreasingsubsequence "github.com/0226zy/lc-go/solutions/hot100/0300_longest_increasing_subsequence"
+	pascalstriangle "github.com/0226zy/lc-go/solutions/hot100/0118_pascals_triangle"
+	perfectsquares "github.com/0226zy/lc-go/solutions/hot100/0279_perfect_squares"
+	wordbreak "github.com/0226zy/lc-go/solutions/hot100/0139_word_break"
+	maximumproductsubarray "github.com/0226zy/lc-go/solutions/hot100/0152_maximum_product_subarray"
+	lrucache "github.com/0226zy/lc-go/solutions/hot100/0146_lru_cache"
+	partitionequalsubsetsum "github.com/0226zy/lc-go/solutions/hot100/0416_partition_equal_subset_sum"
 	findallanagramsinastring "github.com/0226zy/lc-go/solutions/hot100/0438_find_all_anagrams_in_a_string"
 	subarraysumequalk "github.com/0226zy/lc-go/solutions/hot100/0560_subarray_sum_equals_k"
 	intersectionoftwolinkedlists "github.com/0226zy/lc-go/solutions/hot100/0160_intersection_of_two_linked_lists"
@@ -53,6 +59,12 @@ func init() {
 		productExceptSelfCmd,
 		moveZeroesCmd,
 		longestIncreasingSubsequenceCmd,
+		pascalsTriangleCmd,
+		perfectSquaresCmd,
+		wordBreakCmd,
+		maxProductSubarrayCmd,
+		lruCacheCmd,
+		partitionEqualSubsetSumCmd,
 		findAllAnagramsCmd,
 		subarraySumEqualsKCmd,
 		getIntersectionNodeCmd,
@@ -226,14 +238,89 @@ var moveZeroesCmd = &cobra.Command{
 	},
 }
 
+var pascalsTriangleCmd = &cobra.Command{
+	Use:     "pascals-triangle",
+	Short:   "杨辉三角 (Pascal's Triangle)",
+	Aliases: []string{"118"},
+	Run: func(cmd *cobra.Command, args []string) {
+		numRows := 5
+		result := pascalstriangle.Generate(numRows)
+		fmt.Printf("Generate(%d) = %v\n", numRows, result)
+	},
+}
+
+var perfectSquaresCmd = &cobra.Command{
+	Use:     "perfect-squares",
+	Short:   "完全平方数 (Perfect Squares)",
+	Aliases: []string{"279"},
+	Run: func(cmd *cobra.Command, args []string) {
+		n := 12
+		fmt.Printf("NumSquares(%d) = %d\n", n, perfectsquares.NumSquares(n))
+		fmt.Printf("NumSquaresMath(%d) = %d\n", n, perfectsquares.NumSquaresMath(n))
+		fmt.Printf("NumSquaresBFS(%d) = %d\n", n, perfectsquares.NumSquaresBFS(n))
+	},
+}
+
+var wordBreakCmd = &cobra.Command{
+	Use:     "word-break",
+	Short:   "单词拆分 (Word Break)",
+	Aliases: []string{"139"},
+	Run: func(cmd *cobra.Command, args []string) {
+		s := "leetcode"
+		dict := []string{"leet", "code"}
+		fmt.Printf("WordBreak(%q, %v) = %v\n", s, dict, wordbreak.WordBreak(s, dict))
+		fmt.Printf("WordBreakTrie(%q, %v) = %v\n", s, dict, wordbreak.WordBreakTrie(s, dict))
+	},
+}
+
+var maxProductSubarrayCmd = &cobra.Command{
+	Use:     "max-product-subarray",
+	Short:   "乘积最大子数组 (Maximum Product Subarray)",
+	Aliases: []string{"152"},
+	Run: func(cmd *cobra.Command, args []string) {
+		nums := []int{2, 3, -2, 4}
+		fmt.Printf("MaxProduct(%v) = %d (DP)\n", nums, maximumproductsubarray.MaxProduct(nums))
+		fmt.Printf("MaxProductPrefixSuffix(%v) = %d (前缀后缀扫描)\n", nums, maximumproductsubarray.MaxProductPrefixSuffix(nums))
+	},
+}
+
+var lruCacheCmd = &cobra.Command{
+	Use:     "lru-cache",
+	Short:   "LRU 缓存 (LRU Cache)",
+	Aliases: []string{"146"},
+	Run: func(cmd *cobra.Command, args []string) {
+		cache := lrucache.Constructor(2)
+		cache.Put(1, 1)
+		cache.Put(2, 2)
+		fmt.Printf("Get(1) = %d\n", cache.Get(1)) // 1
+		cache.Put(3, 3)                            // 淘汰 key 2
+		fmt.Printf("Get(2) = %d\n", cache.Get(2)) // -1
+		cache.Put(4, 4)                            // 淘汰 key 1
+		fmt.Printf("Get(1) = %d\n", cache.Get(1)) // -1
+		fmt.Printf("Get(3) = %d\n", cache.Get(3)) // 3
+		fmt.Printf("Get(4) = %d\n", cache.Get(4)) // 4
+	},
+}
+
+var partitionEqualSubsetSumCmd = &cobra.Command{
+	Use:     "partition-equal-subset-sum",
+	Short:   "分割等和子集 (Partition Equal Subset Sum)",
+	Aliases: []string{"416"},
+	Run: func(cmd *cobra.Command, args []string) {
+		nums := []int{1, 5, 11, 5}
+		fmt.Printf("CanPartition(%v) = %v (1D DP)\n", nums, partitionequalsubsetsum.CanPartition(nums))
+		fmt.Printf("CanPartitionBitset(%v) = %v (位运算优化)\n", nums, partitionequalsubsetsum.CanPartitionBitset(nums))
+	},
+}
+
 var longestIncreasingSubsequenceCmd = &cobra.Command{
 	Use:     "longest-increasing-subsequence",
 	Short:   "最长递增子序列 (Longest Increasing Subsequence)",
 	Aliases: []string{"300"},
 	Run: func(cmd *cobra.Command, args []string) {
 		nums := []int{10, 9, 2, 5, 3, 7, 101, 18}
-		result := longestincreasingsubsequence.LengthOfLIS(nums)
-		fmt.Printf("LengthOfLIS(%v) = %d\n", nums, result)
+		fmt.Printf("LengthOfLIS(%v) = %d (DP O(n²))\n", nums, longestincreasingsubsequence.LengthOfLIS(nums))
+		fmt.Printf("LengthOfLISBinary(%v) = %d (二分 O(n log n))\n", nums, longestincreasingsubsequence.LengthOfLISBinary(nums))
 	},
 }
 
