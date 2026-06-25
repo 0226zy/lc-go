@@ -3,7 +3,6 @@ package rottingoranges
 import "testing"
 
 func TestOrangesRotting(t *testing.T) {
-t.Skip("未实现")
 	tests := []struct {
 		name string
 		grid [][]int
