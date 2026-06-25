@@ -113,14 +113,14 @@ func OrangesRottingBFS(grid [][]int) int {
 				}
 
 			}
-
-		}			// 一层结束，也是一分钟结束
-			minutes++
+		}
+		// 一层结束，也是一分钟结束
+		minutes++
+	}
 
 	// 还有新鲜的
 	if fresh > 0 {
 		return -1
 	}
 	return minutes
-
 }
