@@ -3,7 +3,6 @@ package minimumwindowsubstring
 import "testing"
 
 func TestMinWindow(t *testing.T) {
-t.Skip("未实现")
 	tests := []struct {
 		name string
 		s    string

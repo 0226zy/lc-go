@@ -3,7 +3,6 @@ package implementtrieprefixtree
 import "testing"
 
 func TestTrie(t *testing.T) {
-t.Skip("未实现")
 	tests := []struct {
 		name string
 		ops  []string
@@ -71,7 +70,7 @@ t.Skip("未实现")
 }
 
 func TestTrieInsertSearch(t *testing.T) {
-t.Skip("未实现")
+	t.Skip("未实现")
 	// TODO: 实现后取消跳过
 	if false {
 		trie := Constructor()

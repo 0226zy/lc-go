@@ -3,7 +3,6 @@ package longestvalidparentheses
 import "testing"
 
 func TestLongestValidParentheses(t *testing.T) {
-t.Skip("未实现")
 	tests := []struct {
 		name string
 		s    string

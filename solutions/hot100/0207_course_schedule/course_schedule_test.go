@@ -3,7 +3,6 @@ package courseschedule
 import "testing"
 
 func TestCanFinish(t *testing.T) {
-t.Skip("未实现")
 	tests := []struct {
 		name          string
 		numCourses    int
