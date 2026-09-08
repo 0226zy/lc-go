@@ -1,0 +1,33 @@
+package lettercombinations
+
+// 数字到字母的映射，索引即数字，0 和 1 不对应任何字母
+var phoneMap = [10]string{
+	"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz",
+}
+
+// LetterCombinations 电话号码的字母组合
+// 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
+// 数字到字母的映射与电话按键相同，组合不考虑顺序。
+// 时间复杂度: O(4^n * n)  空间复杂度: O(n) 递归栈深度
+func LetterCombinations(digits string) []string {
+	if len(digits) == 0 {
+		return []string{}
+	}
+	var result []string
+	path := make([]byte, len(digits)) // path[i] 表示第 i 位数字选中的字母
+
+	var backtrack func(index int)
+	backtrack = func(index int) {
+		if index == len(digits) {
+			result = append(result, string(path))
+			return
+		}
+		letters := phoneMap[digits[index]-'0']
+		for i := 0; i < len(letters); i++ {
+			path[index] = letters[i]
+			backtrack(index + 1)
+		}
+	}
+	backtrack(0)
+	return result
+}
