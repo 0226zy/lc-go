@@ -1,31 +1,56 @@
 package longestpalindromicsubstring
 
-// LongestPalindrome 最长回文子串
+// LongestPalindrome 最长回文子串（标准 DP 数组版）
 // 给你一个字符串 s，找到 s 中最长的回文子串；如果有多个最长答案，返回其中任意一个。
-// 时间复杂度: O(n^2)  空间复杂度: O(1)
+// dp[i][j] 表示子串 s[i..j] 是否为回文串。
+// dp[i][j] = (s[i] == s[j]) && (j-i < 2 || dp[i+1][j-1])，按子串长度递增枚举。
+// 时间复杂度: O(n²)  空间复杂度: O(n²)
 func LongestPalindrome(s string) string {
-	if len(s) < 2 {
+	n := len(s)
+	if n < 2 {
 		return s
 	}
-
-	start, maxLen := 0, 1
-	// 以 i（奇数长度回文）或 i、i+1 之间（偶数长度回文）为中心向两侧扩展
-	for i := 0; i < len(s); i++ {
-		if l := expand(s, i, i); l > maxLen {
-			start, maxLen = i-l/2, l
-		}
-		if l := expand(s, i, i+1); l > maxLen {
-			start, maxLen = i+1-l/2, l
+	dp := make([][]bool, n)
+	for i := range dp {
+		dp[i] = make([]bool, n)
+	}
+	start, maxLen := 0, 1                    // 最长回文的起点和长度
+	for length := 1; length <= n; length++ { // 按子串长度枚举，保证内部子串先求解
+		for i := 0; i+length-1 < n; i++ {
+			j := i + length - 1
+			if s[i] == s[j] {
+				// 两端相等：长度小于 3 必为回文，否则看内部子串
+				dp[i][j] = length < 3 || dp[i+1][j-1]
+			}
+			if dp[i][j] && length > maxLen {
+				start, maxLen = i, length
+			}
 		}
 	}
 	return s[start : start+maxLen]
 }
 
-// expand 以 left、right 为中心向两侧扩展，返回得到的回文串长度
-func expand(s string, left, right int) int {
-	for left >= 0 && right < len(s) && s[left] == s[right] {
-		left--
-		right++
+// LongestPalindromeAlternative 最长回文子串（中心扩展法）
+// 枚举每个回文中心（单字符 + 相邻字符间隙，共 2n-1 个），向两边扩展找最长回文。
+// 时间复杂度: O(n²)  空间复杂度: O(1)
+func LongestPalindromeAlternative(s string) string {
+	n := len(s)
+	if n < 2 {
+		return s
 	}
-	return right - left - 1
+	start, maxLen := 0, 1
+	expand := func(l, r int) { // 从中心 l,r 向两边扩展
+		for l >= 0 && r < n && s[l] == s[r] {
+			if r-l+1 > maxLen {
+				start, maxLen = l, r-l+1
+			}
+			l--
+			r++
+		}
+	}
+	for i := 0; i < n; i++ {
+		expand(i, i)   // 奇数长度，中心是单个字符
+		expand(i, i+1) // 偶数长度，中心是两个字符之间
+	}
+	return s[start : start+maxLen]
 }

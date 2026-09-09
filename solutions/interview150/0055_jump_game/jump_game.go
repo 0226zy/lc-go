@@ -1,22 +1,36 @@
 package jumpgame
 
-// CanJump 跳跃游戏
-// 给定一个非负整数数组 nums，你最初位于数组的第一个下标。数组中的每个元素
-// 表示你在该位置可以跳跃的最大长度。判断你是否能够到达最后一个下标。
-// 时间复杂度: O(n) 单次遍历  空间复杂度: O(1) 常数空间
+// CanJump 跳跃游戏（标准 DP 数组版）
+// dp[i] 表示下标 i 是否可达。
+// dp[i] = 存在某个 j < i，使得 dp[j] 为 true 且 j + nums[j] >= i。
+// 时间复杂度: O(n²)  空间复杂度: O(n)
 func CanJump(nums []int) bool {
-	maxReach := 0 // 当前能到达的最远下标
+	n := len(nums)
+	dp := make([]bool, n)
+	dp[0] = true // base case：起点可达
+	for i := 1; i < n; i++ {
+		for j := 0; j < i; j++ {
+			if dp[j] && j+nums[j] >= i { // 前驱 j 可达且能一步跳到 i
+				dp[i] = true
+				break // 找到一个前驱即可
+			}
+		}
+	}
+	return dp[n-1]
+}
+
+// CanJumpAlternative 跳跃游戏（贪心版）
+// 维护最远可达下标 farthest，遍历时不断更新；
+// 若某位置超出 farthest 则不可达，farthest 覆盖终点则可达。
+// 时间复杂度: O(n)  空间复杂度: O(1)
+func CanJumpAlternative(nums []int) bool {
+	farthest := 0
 	for i := 0; i < len(nums); i++ {
-		// 如果当前下标已经超过了能到达的最远位置，说明走不到这里，直接失败
-		if i > maxReach {
+		if i > farthest { // 当前位置本身不可达，后面更不可能
 			return false
 		}
-		// 从位置 i 出发最远可以到达 i + nums[i]，更新最远可达下标
-		if reach := i + nums[i]; reach > maxReach {
-			maxReach = reach
-		}
-		// 已经能到达终点（或更远），可以提前返回
-		if maxReach >= len(nums)-1 {
+		farthest = max(farthest, i+nums[i])
+		if farthest >= len(nums)-1 { // 已能覆盖终点
 			return true
 		}
 	}

@@ -13,21 +13,21 @@ func LetterCombinations(digits string) []string {
 	if len(digits) == 0 {
 		return []string{}
 	}
-	var result []string
-	path := make([]byte, len(digits)) // path[i] 表示第 i 位数字选中的字母
-
-	var backtrack func(index int)
-	backtrack = func(index int) {
-		if index == len(digits) {
-			result = append(result, string(path))
+	result:=[]string{}
+	path:=make([]byte,len(digits))
+	var backtrace func(index int)
+	backtrace=func(index int){
+		// end
+		if index==len(digits){
+			result=append(result,string(path))
 			return
 		}
-		letters := phoneMap[digits[index]-'0']
-		for i := 0; i < len(letters); i++ {
-			path[index] = letters[i]
-			backtrack(index + 1)
+		letters:=phoneMap[digits[index]-'0']
+		for i:=0;i<len(letters);i++{
+			path[index]=letters[i]
+			backtrace(index+1)
 		}
 	}
-	backtrack(0)
+	backtrace(0)
 	return result
 }

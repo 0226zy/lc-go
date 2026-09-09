@@ -2,48 +2,62 @@ package uniquepathsii
 
 import "testing"
 
+var uniquePathsWithObstaclesCases = []struct {
+	name         string
+	obstacleGrid [][]int
+	want         int
+}{
+	// LeetCode 官方示例
+	{name: "示例1: 3x3中间有障碍", obstacleGrid: [][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, want: 2},
+	{name: "示例2: 2x2右上角障碍", obstacleGrid: [][]int{{0, 1}, {0, 0}}, want: 1},
+
+	// 边界：起点或终点是障碍
+	{name: "起点是障碍返回0", obstacleGrid: [][]int{{1, 0}, {0, 0}}, want: 0},
+	{name: "终点是障碍返回0", obstacleGrid: [][]int{{0, 0}, {0, 1}}, want: 0},
+
+	// 边界：最小网格
+	{name: "1x1无障碍", obstacleGrid: [][]int{{0}}, want: 1},
+	{name: "1x1有障碍", obstacleGrid: [][]int{{1}}, want: 0},
+
+	// 边界：单行单列
+	{name: "1x3单行无障碍", obstacleGrid: [][]int{{0, 0, 0}}, want: 1},
+	{name: "1x3单行中间障碍", obstacleGrid: [][]int{{0, 1, 0}}, want: 0},
+	{name: "3x1单列无障碍", obstacleGrid: [][]int{{0}, {0}, {0}}, want: 1},
+	{name: "3x1单列中间障碍", obstacleGrid: [][]int{{0}, {1}, {0}}, want: 0},
+
+	// 边界：第一行/第一列遇到障碍后后续格子不可达
+	{name: "第一行首格后全被挡", obstacleGrid: [][]int{{0, 1, 0}, {0, 0, 0}}, want: 1},
+	{name: "第一列首格下全被挡", obstacleGrid: [][]int{{0, 0}, {1, 0}, {0, 0}}, want: 1},
+
+	// 边界：障碍堵死通路
+	{name: "障碍堵死通路", obstacleGrid: [][]int{{0, 0}, {1, 1}, {0, 0}}, want: 0},
+
+	// 边界：全无障碍（退化为62题）
+	{name: "2x2无障碍", obstacleGrid: [][]int{{0, 0}, {0, 0}}, want: 2},
+	{name: "3x3无障碍", obstacleGrid: [][]int{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, want: 6},
+
+	// 边界：复杂障碍分布
+	{name: "障碍挡左列", obstacleGrid: [][]int{{0, 0, 0}, {1, 0, 0}, {0, 0, 0}}, want: 3},
+	{name: "4x4多障碍", obstacleGrid: [][]int{{0, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}}, want: 4},
+	{name: "曲折通路仅一条", obstacleGrid: [][]int{{0, 1, 1}, {0, 0, 1}, {1, 0, 0}}, want: 1},
+	{name: "之字形障碍", obstacleGrid: [][]int{{0, 0, 1}, {1, 0, 0}, {0, 0, 0}}, want: 2},
+}
+
 func TestUniquePathsWithObstacles(t *testing.T) {
-	tests := []struct {
-		name         string
-		obstacleGrid [][]int
-		want         int
-	}{
-		// LeetCode 官方示例
-		{"示例1: 3x3中间有障碍", [][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, 2},
-		{"示例2: 2x2右上角障碍", [][]int{{0, 1}, {0, 0}}, 1},
-
-		// 边界：起点或终点是障碍
-		{"起点是障碍返回0", [][]int{{1, 0}, {0, 0}}, 0},
-		{"终点是障碍返回0", [][]int{{0, 0}, {0, 1}}, 0},
-
-		// 边界：最小网格
-		{"1x1无障碍", [][]int{{0}}, 1},
-		{"1x1有障碍", [][]int{{1}}, 0},
-
-		// 边界：单行单列
-		{"1x3单行无障碍", [][]int{{0, 0, 0}}, 1},
-		{"1x3单行中间障碍", [][]int{{0, 1, 0}}, 0},
-		{"3x1单列无障碍", [][]int{{0}, {0}, {0}}, 1},
-		{"3x1单列中间障碍", [][]int{{0}, {1}, {0}}, 0},
-
-		// 边界：第一行/第一列遇到障碍后后续格子不可达
-		{"第一行首格后全被挡", [][]int{{0, 1, 0}, {0, 0, 0}}, 1},
-		{"第一列首格下全被挡", [][]int{{0, 0}, {1, 0}, {0, 0}}, 1},
-
-		// 边界：全无障碍（退化为62题）
-		{"2x2无障碍", [][]int{{0, 0}, {0, 0}}, 2},
-		{"3x3无障碍", [][]int{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, 6},
-
-		// 边界：复杂障碍分布
-		{"4x4多障碍", [][]int{{0, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}}, 4},
-		{"曲折通路仅一条", [][]int{{0, 1, 1}, {0, 0, 1}, {1, 0, 0}}, 1},
-		{"之字形障碍", [][]int{{0, 0, 1}, {1, 0, 0}, {0, 0, 0}}, 2},
-	}
-
-	for _, tt := range tests {
+	for _, tt := range uniquePathsWithObstaclesCases {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := UniquePathsWithObstacles(tt.obstacleGrid); got != tt.want {
 				t.Errorf("UniquePathsWithObstacles(%v) = %d, want %d", tt.obstacleGrid, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUniquePathsWithObstaclesOptimized(t *testing.T) {
+	for _, tt := range uniquePathsWithObstaclesCases {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := UniquePathsWithObstaclesOptimized(tt.obstacleGrid); got != tt.want {
+				t.Errorf("UniquePathsWithObstaclesOptimized(%v) = %d, want %d", tt.obstacleGrid, got, tt.want)
 			}
 		})
 	}
@@ -58,8 +72,7 @@ func makeGrid(m, n int) [][]int {
 	return grid
 }
 
-// 压力场景：100x100 网格（约束上限），答案保证 <= 2*10^9 的前提是题目数据有障碍，
-// 这里验证无障碍的 10x10 大网格与随机障碍的 100x100 网格不会 panic / 溢出。
+// 压力场景：验证大网格不会 panic / 溢出
 func TestUniquePathsWithObstaclesStress(t *testing.T) {
 	t.Run("10x10无障碍网格", func(t *testing.T) {
 		grid := makeGrid(10, 10)
@@ -74,8 +87,7 @@ func TestUniquePathsWithObstaclesStress(t *testing.T) {
 		for i := 1; i < 99; i++ {
 			grid[i][i] = 1
 		}
-		got := UniquePathsWithObstacles(grid)
-		if got <= 0 {
+		if got := UniquePathsWithObstacles(grid); got <= 0 {
 			t.Errorf("UniquePathsWithObstacles(100x100) = %d, 期望为正数", got)
 		}
 	})
@@ -95,26 +107,15 @@ func TestUniquePathsWithObstaclesStress(t *testing.T) {
 }
 
 func BenchmarkUniquePathsWithObstacles(b *testing.B) {
-	grid10 := makeGrid(10, 10)
-	grid100 := makeGrid(100, 100)
-	for i := 1; i < 99; i++ {
-		grid100[i][i] = 1
+	grid := makeGrid(20, 20)
+	for i := 0; i < b.N; i++ {
+		UniquePathsWithObstacles(grid)
 	}
+}
 
-	benchmarks := []struct {
-		name string
-		grid [][]int
-	}{
-		{"3x3示例网格", [][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}},
-		{"10x10无障碍", grid10},
-		{"100x100棋盘式障碍", grid100},
-	}
-
-	for _, bm := range benchmarks {
-		b.Run(bm.name, func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				UniquePathsWithObstacles(bm.grid)
-			}
-		})
+func BenchmarkUniquePathsWithObstaclesOptimized(b *testing.B) {
+	grid := makeGrid(20, 20)
+	for i := 0; i < b.N; i++ {
+		UniquePathsWithObstaclesOptimized(grid)
 	}
 }

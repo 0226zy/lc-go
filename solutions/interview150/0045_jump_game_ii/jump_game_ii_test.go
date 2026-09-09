@@ -2,39 +2,40 @@ package jumpgameii
 
 import "testing"
 
+var jumpCases = []struct {
+	name string
+	nums []int
+	want int
+}{
+	// LeetCode 官方示例
+	{name: "示例1: [2,3,1,1,4]", nums: []int{2, 3, 1, 1, 4}, want: 2},
+	{name: "示例2: [2,3,0,1,4]", nums: []int{2, 3, 0, 1, 4}, want: 2},
+
+	// 边界：单元素，无需跳跃
+	{name: "单元素", nums: []int{0}, want: 0},
+	{name: "单元素非0", nums: []int{5}, want: 0},
+
+	// 边界：一步或两步恰达
+	{name: "两步到达", nums: []int{1, 1}, want: 1},
+	{name: "一次大跳直达", nums: []int{4, 0, 0, 0, 0}, want: 1},
+	{name: "全是大步", nums: []int{9, 8, 7, 6, 5}, want: 1},
+
+	// 边界：全为1，只能一步一步跳
+	{name: "全为1", nums: []int{1, 1, 1, 1, 1}, want: 4},
+
+	// 边界：中间有0需要绕行（原用例 [3,2,1,0,4] 实际不可达，违反题目保证，已移除）
+	{name: "含零但不挡路", nums: []int{3, 0, 0, 2, 1}, want: 2},
+
+	// 边界：递减步数
+	{name: "递减步数", nums: []int{4, 3, 2, 1, 0}, want: 1},
+
+	// 边界：先小后大
+	{name: "先小后大", nums: []int{1, 2, 1, 1, 1}, want: 3},
+	{name: "需要先小跳再大跳", nums: []int{1, 3, 2}, want: 2},
+}
+
 func TestJump(t *testing.T) {
-	tests := []struct {
-		name string
-		nums []int
-		want int
-	}{
-		// LeetCode 官方示例
-		{"示例1: [2,3,1,1,4]", []int{2, 3, 1, 1, 4}, 2},
-		{"示例2: [2,3,0,1,4]", []int{2, 3, 0, 1, 4}, 2},
-
-		// 边界：单元素，无需跳跃
-		{"单元素", []int{0}, 0},
-		{"单元素非0", []int{5}, 0},
-
-		// 边界：两步恰达
-		{"两步到达", []int{1, 1}, 1},
-		{"一次大跳直达", []int{4, 0, 0, 0, 0}, 1},
-
-		// 边界：全为1，只能一步一步跳
-		{"全为1", []int{1, 1, 1, 1, 1}, 4},
-
-		// 边界：中间有0需要绕行
-		{"绕过中间的0", []int{3, 2, 1, 0, 4}, 2},
-		{"连续0", []int{5, 9, 3, 2, 1, 0, 2, 3, 3, 1, 0, 0}, 3},
-
-		// 边界：递减步数
-		{"递减步数", []int{4, 3, 2, 1, 0}, 1},
-
-		// 边界：先小后大
-		{"先小后大", []int{1, 2, 1, 1, 1}, 3},
-	}
-
-	for _, tt := range tests {
+	for _, tt := range jumpCases {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Jump(tt.nums); got != tt.want {
 				t.Errorf("Jump(%v) = %d, want %d", tt.nums, got, tt.want)
@@ -43,20 +44,40 @@ func TestJump(t *testing.T) {
 	}
 }
 
-func BenchmarkJump(b *testing.B) {
-	benchmarks := []struct {
-		name string
-		nums []int
-	}{
-		{"len=10", []int{2, 3, 1, 1, 4, 2, 1, 3, 1, 1}},
-		{"len=1000", generateNums(1000)},
-		{"len=10000", generateNums(10000)},
+func TestJumpAlternative(t *testing.T) {
+	for _, tt := range jumpCases {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := JumpAlternative(tt.nums); got != tt.want {
+				t.Errorf("JumpAlternative(%v) = %d, want %d", tt.nums, got, tt.want)
+			}
+		})
 	}
+}
 
-	for _, bm := range benchmarks {
+var benchNums = []struct {
+	name string
+	nums []int
+}{
+	{"len=10", []int{2, 3, 1, 1, 4, 2, 1, 3, 1, 1}},
+	{"len=1000", generateNums(1000)},
+	{"len=10000", generateNums(10000)},
+}
+
+func BenchmarkJump(b *testing.B) {
+	for _, bm := range benchNums {
 		b.Run(bm.name, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				Jump(bm.nums)
+			}
+		})
+	}
+}
+
+func BenchmarkJumpAlternative(b *testing.B) {
+	for _, bm := range benchNums {
+		b.Run(bm.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				JumpAlternative(bm.nums)
 			}
 		})
 	}

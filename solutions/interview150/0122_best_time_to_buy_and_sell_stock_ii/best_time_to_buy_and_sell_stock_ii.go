@@ -1,17 +1,31 @@
 package besttimetobuyandsellstockii
 
-// MaxProfit 买卖股票的最佳时机 II
-// 给定一个数组 prices，prices[i] 表示第 i 天的股票价格。你可以进行任意多次交易
-// （买入、卖出可以交替多次），但同一时刻最多持有一股，且必须先卖出后才能再次买入。
-// 返回你能获得的最大利润。
-// 时间复杂度: O(n) 单次遍历  空间复杂度: O(1) 常数空间
+// MaxProfit 买卖股票的最佳时机 II（标准 DP 数组版）
+// 每天可以买入或卖出，最多持有一股，可多次交易，求最大利润。
+// dp[i][0] 表示第 i 天结束后不持有股票的最大利润，dp[i][1] 表示持有的最大利润。
+// dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])（不动或今天卖出）
+// dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])（不动或今天买入）
+// 时间复杂度: O(n)  空间复杂度: O(n)
 func MaxProfit(prices []int) int {
+	n := len(prices)
+	dp := make([][2]int, n)
+	dp[0][1] = -prices[0] // base case：第 0 天买入，利润为 -prices[0]
+	for i := 1; i < n; i++ {
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i]) // 昨天就不持有，或今天卖出
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i]) // 昨天就持有，或今天买入
+	}
+	return dp[n-1][0] // 最后一天一定是不持有更优
+}
+
+// MaxProfitAlternative 买卖股票的最佳时机 II（贪心版）
+// 上涨行情 a->b->c 整体持有赚 c-a，等价于分段赚 (b-a)+(c-b)，
+// 因此累加所有相邻上涨差价即为最大利润（interview150 题单中本题的归类解法）。
+// 时间复杂度: O(n)  空间复杂度: O(1)
+func MaxProfitAlternative(prices []int) int {
 	profit := 0
 	for i := 1; i < len(prices); i++ {
-		// 只要今天比昨天贵，就在昨天买入、今天卖出
-		// 所有上涨的"每一段"利润都被累加，等价于在谷底买入、峰顶卖出
-		if prices[i] > prices[i-1] {
-			profit += prices[i] - prices[i-1]
+		if diff := prices[i] - prices[i-1]; diff > 0 {
+			profit += diff // 收集每一段上涨
 		}
 	}
 	return profit

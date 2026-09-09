@@ -2,43 +2,44 @@ package trappingrainwater
 
 import "testing"
 
+var trapCases = []struct {
+	name   string
+	height []int
+	want   int
+}{
+	// LeetCode 官方示例
+	{name: "示例1", height: []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}, want: 6},
+	{name: "示例2", height: []int{4, 2, 0, 3, 2, 5}, want: 9},
+
+	// 边界：柱子太少接不到水
+	{name: "空数组", height: []int{}, want: 0},
+	{name: "单柱", height: []int{1}, want: 0},
+	{name: "两柱", height: []int{1, 2}, want: 0},
+	{name: "两柱等高", height: []int{3, 3}, want: 0},
+
+	// 边界：平地
+	{name: "全为0", height: []int{0, 0, 0, 0}, want: 0},
+	{name: "全等高", height: []int{2, 2, 2, 2}, want: 0},
+
+	// 边界：单调数组（无凹槽）
+	{name: "严格递增", height: []int{0, 1, 2, 3}, want: 0},
+	{name: "严格递减", height: []int{3, 2, 1, 0}, want: 0},
+
+	// 边界：单个凹槽
+	{name: "单凹槽", height: []int{2, 0, 2}, want: 2},
+	{name: "单凹槽更高", height: []int{3, 0, 0, 3}, want: 6},
+	{name: "深槽", height: []int{5, 0, 0, 0, 5}, want: 15},
+
+	// 边界：凹槽不对称
+	{name: "左高右低", height: []int{5, 2, 1, 2, 1, 5}, want: 14},
+	{name: "左低右高", height: []int{1, 4, 2, 5, 6, 3}, want: 2},
+
+	// 边界：多凹槽
+	{name: "多凹槽", height: []int{3, 0, 1, 0, 2}, want: 5},
+}
+
 func TestTrap(t *testing.T) {
-	tests := []struct {
-		name   string
-		height []int
-		want   int
-	}{
-		// LeetCode 官方示例
-		{"示例1", []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}, 6},
-		{"示例2", []int{4, 2, 0, 3, 2, 5}, 9},
-
-		// 边界：柱子太少接不到水
-		{"空数组", []int{}, 0},
-		{"单柱", []int{1}, 0},
-		{"两柱", []int{1, 2}, 0},
-		{"两柱等高", []int{3, 3}, 0},
-
-		// 边界：平地
-		{"全为0", []int{0, 0, 0, 0}, 0},
-		{"全等高", []int{2, 2, 2, 2}, 0},
-
-		// 边界：单调数组（无凹槽）
-		{"严格递增", []int{0, 1, 2, 3}, 0},
-		{"严格递减", []int{3, 2, 1, 0}, 0},
-
-		// 边界：单个凹槽
-		{"单凹槽", []int{2, 0, 2}, 2},
-		{"单凹槽更高", []int{3, 0, 0, 3}, 6},
-
-		// 边界：凹槽不对称
-		{"左高右低", []int{5, 2, 1, 2, 1, 5}, 14},
-		{"左低右高", []int{1, 4, 2, 5, 6, 3}, 2},
-
-		// 边界：多凹槽
-		{"多凹槽", []int{3, 0, 1, 0, 2}, 5},
-	}
-
-	for _, tt := range tests {
+	for _, tt := range trapCases {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Trap(tt.height); got != tt.want {
 				t.Errorf("Trap(%v) = %d, want %d", tt.height, got, tt.want)
@@ -47,63 +48,47 @@ func TestTrap(t *testing.T) {
 	}
 }
 
-// TestTrapAllMethods 校验三种解法结果一致
-func TestTrapAllMethods(t *testing.T) {
-	tests := []struct {
-		name   string
-		height []int
-	}{
-		{"官方示例1", []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}},
-		{"官方示例2", []int{4, 2, 0, 3, 2, 5}},
-		{"随机数组", []int{4, 2, 0, 3, 2, 5, 2, 1, 3, 0, 1}},
-		{"V形", []int{5, 1, 1, 1, 5}},
-		{"W形", []int{5, 1, 4, 1, 5}},
-	}
-
-	for _, tt := range tests {
+func TestTrapAlternative(t *testing.T) {
+	for _, tt := range trapCases {
 		t.Run(tt.name, func(t *testing.T) {
-			a, b, c := Trap(tt.height), TrapDP(tt.height), TrapStack(tt.height)
-			if a != b || b != c {
-				t.Errorf("解法结果不一致: 双指针=%d, DP=%d, 单调栈=%d", a, b, c)
+			if got := TrapAlternative(tt.height); got != tt.want {
+				t.Errorf("TrapAlternative(%v) = %d, want %d", tt.height, got, tt.want)
 			}
 		})
 	}
 }
 
-func BenchmarkTrap(b *testing.B) {
-	benchmarks := []struct {
-		name   string
-		height []int
-	}{
-		{"len=12", []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}},
-		{"len=100", generateHeights(100)},
-		{"len=1000", generateHeights(1000)},
-		{"len=10000", generateHeights(10000)},
-		{"len=100000", generateHeights(100000)},
-	}
+var benchHeights = []struct {
+	name   string
+	height []int
+}{
+	{"len=12", []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}},
+	{"len=100", generateHeights(100)},
+	{"len=1000", generateHeights(1000)},
+	{"len=10000", generateHeights(10000)},
+}
 
-	for _, bm := range benchmarks {
+func BenchmarkTrap(b *testing.B) {
+	for _, bm := range benchHeights {
 		b.Run(bm.name, func(b *testing.B) {
-			b.Run("双指针", func(b *testing.B) {
-				for i := 0; i < b.N; i++ {
-					Trap(bm.height)
-				}
-			})
-			b.Run("动态规划", func(b *testing.B) {
-				for i := 0; i < b.N; i++ {
-					TrapDP(bm.height)
-				}
-			})
-			b.Run("单调栈", func(b *testing.B) {
-				for i := 0; i < b.N; i++ {
-					TrapStack(bm.height)
-				}
-			})
+			for i := 0; i < b.N; i++ {
+				Trap(bm.height)
+			}
 		})
 	}
 }
 
-// generateHeights 生成长度为 n 的随机柱状图高度
+func BenchmarkTrapAlternative(b *testing.B) {
+	for _, bm := range benchHeights {
+		b.Run(bm.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				TrapAlternative(bm.height)
+			}
+		})
+	}
+}
+
+// generateHeights 生成长度为 n 的伪随机柱状图高度
 func generateHeights(n int) []int {
 	height := make([]int, n)
 	for i := 0; i < n; i++ {

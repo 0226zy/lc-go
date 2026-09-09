@@ -1,37 +1,25 @@
 package wordbreak
 
-// WordBreak 单词拆分
-// 判断字符串 s 能否被空格拆分为一个或多个字典 wordDict 中的单词，字典单词可重复使用。
-// 时间复杂度: O(n*m*k)，n 为 s 长度，m 为最长字典单词长度，k 为子串哈希/比较开销  空间复杂度: O(n)
+// WordBreak 单词拆分（标准 DP 数组版）
+// 判断字符串 s 能否用字典 wordDict 中的单词（可重复使用）拼接而成。
+// dp[i] 表示前 i 个字符 s[:i] 能否被拆分，
+// dp[i] = true 当且仅当存在 j < i 使得 dp[j] == true 且 s[j:i] 在字典中。
+// 时间复杂度: O(n^2)（不计子串哈希开销）  空间复杂度: O(n + 字典总字符数)
 func WordBreak(s string, wordDict []string) bool {
-	// 字典放入哈希集合加速查询，同时记录最长单词长度用于剪枝
-	dict := make(map[string]struct{}, len(wordDict))
-	maxLen := 0
-	for _, w := range wordDict {
-		dict[w] = struct{}{}
-		if len(w) > maxLen {
-			maxLen = len(w)
-		}
-	}
-
 	n := len(s)
-	// dp[i] 表示 s[:i] 能否用字典单词拼出，空串视为可以
+	// 字典放入哈希表，O(1) 查询某个子串是否是合法单词
+	wordSet := make(map[string]bool, len(wordDict))
+	for _, w := range wordDict {
+		wordSet[w] = true
+	}
 	dp := make([]bool, n+1)
-	dp[0] = true
-
+	dp[0] = true // base case：空前缀不需要任何单词
 	for i := 1; i <= n; i++ {
-		// 只枚举最后一个单词的起点 j，长度超过 maxLen 的子串一定不在字典中
-		start := i - maxLen
-		if start < 0 {
-			start = 0
-		}
-		for j := start; j < i; j++ {
-			if !dp[j] {
-				continue
-			}
-			if _, ok := dict[s[j:i]]; ok {
+		// 枚举最后一个单词的起点 j：s[:j] 能拼出，且 s[j:i] 本身是单词
+		for j := 0; j < i; j++ {
+			if dp[j] && wordSet[s[j:i]] {
 				dp[i] = true
-				break
+				break // 找到一种拼法即可
 			}
 		}
 	}

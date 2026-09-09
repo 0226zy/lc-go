@@ -1,20 +1,33 @@
 package besttimetobuyandsellstock
 
-// MaxProfit 买卖股票的最佳时机
-// 给定一个数组 prices，prices[i] 表示第 i 天的股票价格。最多只能完成一笔交易
-// （买入一次并卖出一次），且必须先买入后卖出，返回你能获得的最大利润。
-// 时间复杂度: O(n) 单次遍历  空间复杂度: O(1) 常数空间
+// MaxProfit 买卖股票的最佳时机（标准 DP 数组版）
+// 给定数组 prices，prices[i] 表示第 i 天的股票价格。最多完成一笔交易
+// （买入一次并卖出一次），且必须先买入后卖出，返回最大利润。
+// minPrice[i] 表示前 i 天的最低价格，dp[i] 表示前 i 天的最大利润；
+// dp[i] = max(dp[i-1], prices[i]-minPrice[i])，答案为 dp[n-1]。
+// 时间复杂度: O(n)  空间复杂度: O(n)
 func MaxProfit(prices []int) int {
-	minPrice := prices[0] // 记录到目前为止看到的最低价格
-	maxProfit := 0        // 记录到目前为止能获得的最大利润
-	for _, price := range prices {
-		if price < minPrice {
-			// 出现了更低的买入价，更新最低价格
-			minPrice = price
-		} else if profit := price - minPrice; profit > maxProfit {
-			// 以历史最低价买入、今天卖出，利润更大则更新
-			maxProfit = profit
-		}
+	n := len(prices)
+	minPrice := make([]int, n)
+	dp := make([]int, n)
+	minPrice[0] = prices[0] // base case：第一天最低成本就是当天价格，dp[0] = 0
+	for i := 1; i < n; i++ {
+		minPrice[i] = min(minPrice[i-1], prices[i])
+		// 今天不卖（沿用历史最优） vs 今天卖（以历史最低价买入）
+		dp[i] = max(dp[i-1], prices[i]-minPrice[i])
 	}
-	return maxProfit
+	return dp[n-1]
+}
+
+// MaxProfitOptimized 买卖股票的最佳时机（滚动变量空间优化版）
+// dp[i]、minPrice[i] 都只依赖前一天状态，用两个滚动变量一次遍历即可。
+// 即题单中常见的「一次遍历 + 维护历史最低价」写法，本质与 DP 数组版相同。
+// 时间复杂度: O(n)  空间复杂度: O(1)
+func MaxProfitOptimized(prices []int) int {
+	minPrice, profit := prices[0], 0
+	for i := 1; i < len(prices); i++ {
+		minPrice = min(minPrice, prices[i])      // 迄今最低买入价
+		profit = max(profit, prices[i]-minPrice) // 今天卖的利润 vs 历史最优
+	}
+	return profit
 }

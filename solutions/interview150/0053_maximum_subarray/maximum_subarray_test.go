@@ -2,39 +2,41 @@ package maximumsubarray
 
 import "testing"
 
+var maxSubArrayCases = []struct {
+	name string
+	nums []int
+	want int
+}{
+	// LeetCode 官方示例
+	{name: "示例1: [-2,1,-3,4,-1,2,1,-5,4]", nums: []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}, want: 6},
+	{name: "示例2: [1]", nums: []int{1}, want: 1},
+	{name: "示例3: [5,4,-1,7,8]", nums: []int{5, 4, -1, 7, 8}, want: 23},
+
+	// 边界：单元素
+	{name: "单元素为负数", nums: []int{-1}, want: -1},
+	{name: "单元素为最小值", nums: []int{-10000}, want: -10000},
+
+	// 边界：全负数
+	{name: "全负数", nums: []int{-2, -1, -3, -4}, want: -1},
+	{name: "全负数且递减", nums: []int{-5, -4, -3, -2, -1}, want: -1},
+
+	// 边界：全正数
+	{name: "全正数", nums: []int{1, 2, 3, 4}, want: 10},
+
+	// 边界：正负交错
+	{name: "正负交错", nums: []int{1, -1, 1, -1, 1}, want: 1},
+	{name: "先正后负拖尾", nums: []int{3, -2, -1, -10}, want: 3},
+	{name: "中间低谷后反弹", nums: []int{-2, -3, 4, -1, -2, 1, 5, -3}, want: 7},
+	{name: "首尾大中间负", nums: []int{8, -19, 5}, want: 8},
+	{name: "含零", nums: []int{-1, 0, -2}, want: 0},
+
+	// 边界：答案就是整个数组
+	{name: "累加最大", nums: []int{1, 2, -1, 2, 3}, want: 7},
+	{name: "极大值混入", nums: []int{-1, 0, -2, 10000, -10000}, want: 10000},
+}
+
 func TestMaxSubArray(t *testing.T) {
-	tests := []struct {
-		name string
-		nums []int
-		want int
-	}{
-		// LeetCode 官方示例
-		{"示例1: [-2,1,-3,4,-1,2,1,-5,4]", []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6},
-		{"示例2: [1]", []int{1}, 1},
-		{"示例3: [5,4,-1,7,8]", []int{5, 4, -1, 7, 8}, 23},
-
-		// 边界：单元素
-		{"单元素为负数", []int{-1}, -1},
-		{"单元素为最小值", []int{-10000}, -10000},
-
-		// 边界：全负数
-		{"全负数", []int{-2, -1, -3, -4}, -1},
-		{"全负数且递减", []int{-5, -4, -3, -2, -1}, -1},
-
-		// 边界：全正数
-		{"全正数", []int{1, 2, 3, 4}, 10},
-
-		// 边界：正负交错
-		{"正负交错", []int{1, -1, 1, -1, 1}, 1},
-		{"先正后负拖尾", []int{3, -2, -1, -10}, 3},
-		{"中间低谷后反弹", []int{-2, -3, 4, -1, -2, 1, 5, -3}, 7},
-
-		// 边界：答案就是整个数组
-		{"累加最大", []int{1, 2, -1, 2, 3}, 7},
-		{"极大值混入", []int{-1, 0, -2, 10000, -10000}, 10000},
-	}
-
-	for _, tt := range tests {
+	for _, tt := range maxSubArrayCases {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := MaxSubArray(tt.nums); got != tt.want {
 				t.Errorf("MaxSubArray(%v) = %d, want %d", tt.nums, got, tt.want)
@@ -43,22 +45,42 @@ func TestMaxSubArray(t *testing.T) {
 	}
 }
 
-func BenchmarkMaxSubArray(b *testing.B) {
-	benchmarks := []struct {
-		name string
-		nums []int
-	}{
-		{"len=10", []int{-2, 1, -3, 4, -1, 2, 1, -5, 4, 3}},
-		{"len=100", generateNums(100)},
-		{"len=1000", generateNums(1000)},
-		{"len=10000", generateNums(10000)},
-		{"len=100000", generateNums(100000)},
+func TestMaxSubArrayOptimized(t *testing.T) {
+	for _, tt := range maxSubArrayCases {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MaxSubArrayOptimized(tt.nums); got != tt.want {
+				t.Errorf("MaxSubArrayOptimized(%v) = %d, want %d", tt.nums, got, tt.want)
+			}
+		})
 	}
+}
 
-	for _, bm := range benchmarks {
+var benchNums = []struct {
+	name string
+	nums []int
+}{
+	{"len=10", []int{-2, 1, -3, 4, -1, 2, 1, -5, 4, 3}},
+	{"len=100", generateNums(100)},
+	{"len=1000", generateNums(1000)},
+	{"len=10000", generateNums(10000)},
+	{"len=100000", generateNums(100000)},
+}
+
+func BenchmarkMaxSubArray(b *testing.B) {
+	for _, bm := range benchNums {
 		b.Run(bm.name, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				MaxSubArray(bm.nums)
+			}
+		})
+	}
+}
+
+func BenchmarkMaxSubArrayOptimized(b *testing.B) {
+	for _, bm := range benchNums {
+		b.Run(bm.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				MaxSubArrayOptimized(bm.nums)
 			}
 		})
 	}

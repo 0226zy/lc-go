@@ -16,14 +16,15 @@ func Constructor() Trie {
 // 时间复杂度: O(L) L 为 word 长度  空间复杂度: O(L) 最坏情况新增 L 个节点
 func (t *Trie) Insert(word string) {
 	node := t
-	for i := 0; i < len(word); i++ {
-		idx := word[i] - 'a'
+	for _, ch := range word {
+		idx := ch - 'a'
 		if node.children[idx] == nil {
 			node.children[idx] = &Trie{}
 		}
 		node = node.children[idx]
 	}
 	node.isEnd = true
+
 }
 
 // Search 查找字符串 word 是否在前缀树中（必须是完整单词）
@@ -31,19 +32,21 @@ func (t *Trie) Insert(word string) {
 func (t *Trie) Search(word string) bool {
 	node := t.searchPrefix(word)
 	return node != nil && node.isEnd
+
 }
 
 // StartsWith 判断前缀 prefix 是否匹配任意已插入单词
 // 时间复杂度: O(L)  空间复杂度: O(1)
 func (t *Trie) StartsWith(prefix string) bool {
-	return t.searchPrefix(prefix) != nil
+	node := t.searchPrefix(prefix)
+	return node != nil
 }
 
 // searchPrefix 沿前缀逐字符下钻，返回最后一个字符对应的节点；前缀不存在返回 nil
 func (t *Trie) searchPrefix(prefix string) *Trie {
 	node := t
-	for i := 0; i < len(prefix); i++ {
-		idx := prefix[i] - 'a'
+	for _, ch := range prefix {
+		idx := ch - 'a'
 		if node.children[idx] == nil {
 			return nil
 		}
