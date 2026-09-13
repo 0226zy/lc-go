@@ -4,7 +4,7 @@ package generateparentheses
 // 数字 n 代表生成括号的对数，返回所有可能的并且有效的括号组合。
 // 时间复杂度: O(4^n / √n) 即卡特兰数 Cn  空间复杂度: O(n) 递归栈深度
 func GenerateParenthesis(n int) []string {
-	path := make([]byte, 2*n)
+	path := make([]byte, 0, 2*n)
 	result := []string{}
 	var backtrace func(open, close int)
 	backtrace = func(open, close int) {
