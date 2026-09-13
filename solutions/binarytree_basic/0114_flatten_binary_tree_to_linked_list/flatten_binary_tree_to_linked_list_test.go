@@ -31,8 +31,8 @@ func TestFlatten(t *testing.T) {
 		{"只有左子树", []int{1, 2, math.MinInt32, 3}, []int{1, 2, 3}},
 		// 边界：只有右子树，本身就是目标形态
 		{"只有右子树", []int{1, math.MinInt32, 2, math.MinInt32, 3}, []int{1, 2, 3}},
-		// 边界：左链与右链混合的链式树
-		{"左右混合的链式树", []int{1, 2, math.MinInt32, math.MinInt32, 3, math.MinInt32, math.MinInt32, math.MinInt32, 4}, []int{1, 2, 3, 4}},
+		// 边界：左链与右链混合的链式树（1→左2→右3→右4）
+		{"左右混合的链式树", []int{1, 2, math.MinInt32, math.MinInt32, 3, math.MinInt32, 4}, []int{1, 2, 3, 4}},
 		// 边界：含负数节点值
 		{"含负数节点", []int{-1, -2, 5, -3, math.MinInt32, math.MinInt32, 6}, []int{-1, -2, -3, 5, 6}},
 		// 边界：满二叉树
