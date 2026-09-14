@@ -10,17 +10,17 @@ func Rob(nums []int) int {
 	if n == 1 {
 		return nums[0] // 只有一间房，既是首也是尾，直接偷
 	}
-	return max(robRange(nums, 0, n-2), robRange(nums, 1, n-1))
+	return max(robRange(nums[:len(nums)-1]), robRange(nums[1:]))
 }
 
 // robRange 对闭区间 [lo, hi] 内的房屋跑 0198 的线性打家劫舍 DP
 // dp[i] 表示只考虑区间内前 i 间房屋时的最高金额
-func robRange(nums []int, lo, hi int) int {
-	m := hi - lo + 1
+func robRange(nums []int) int {
+	m := len(nums)
 	dp := make([]int, m+1)
-	dp[1] = nums[lo] // base case：dp[0] = 0，dp[1] = 区间第一间
+	dp[1] = nums[0] // base case：dp[0] = 0，dp[1] = 区间第一间
 	for i := 2; i <= m; i++ {
-		dp[i] = max(dp[i-1], dp[i-2]+nums[lo+i-1]) // 不偷 or 偷区间内第 i 间
+		dp[i] = max(dp[i-1], dp[i-2]+nums[i-1]) // 不偷 or 偷区间内第 i 间
 	}
 	return dp[m]
 }

@@ -18,6 +18,17 @@ func MaxProfit(prices []int) int {
 	return dp[n-1]
 }
 
+func Dp(prices []int) int {
+	n := len(prices)
+	minPrice := prices[0]
+	dp := 0
+	for i := 1; i < n; i++ {
+		minPrice = min(minPrice, prices[i])
+		dp = max(dp, prices[i]-minPrice)
+	}
+	return dp
+}
+
 // MaxProfitOptimized 买卖股票的最佳时机（滚动变量空间优化版）
 // dp[i]、minPrice[i] 都只依赖前一天状态，用两个滚动变量一次遍历即可。
 // 时间复杂度: O(n)  空间复杂度: O(1)
