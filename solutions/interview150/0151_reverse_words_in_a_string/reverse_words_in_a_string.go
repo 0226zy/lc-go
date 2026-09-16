@@ -7,6 +7,11 @@ import "strings"
 // 单词间只保留一个空格，无首尾空格。
 // 时间复杂度: O(n)  空间复杂度: O(n)（切片重建）
 func ReverseWords(s string) string {
+	return ReverseWords2(s)
+}
+
+func reverse(s string) string {
+
 	// 按空白字符分割，自动忽略多余空格
 	words := strings.Fields(s)
 
@@ -16,4 +21,30 @@ func ReverseWords(s string) string {
 	}
 
 	return strings.Join(words, " ")
+}
+
+func ReverseWords2(s string) string {
+	b := []byte(s)
+	n := len(b)
+	res := make([]byte, 0, n)
+	right := n - 1
+	for right >= 0 {
+		for right >= 0 && b[right] == ' ' {
+			right--
+		}
+		if right < 0 {
+			break
+		}
+		left := right
+		for left >= 0 && b[left] != ' ' {
+			left--
+		}
+		word := b[left+1 : right+1]
+		if len(res) > 0 {
+			res = append(res, ' ')
+		}
+		res = append(res, word...)
+		right = left
+	}
+	return string(res)
 }

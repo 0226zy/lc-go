@@ -7,14 +7,14 @@ package besttimetobuyandsellstockii
 // dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])（不动或今天买入）
 // 时间复杂度: O(n)  空间复杂度: O(n)
 func MaxProfit(prices []int) int {
-	n := len(prices)
-	dp := make([][2]int, n)
-	dp[0][1] = -prices[0] // base case：第 0 天买入，利润为 -prices[0]
-	for i := 1; i < n; i++ {
-		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i]) // 昨天就不持有，或今天卖出
-		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i]) // 昨天就持有，或今天买入
+	dp := make([][2]int, len(prices))
+	dp[0][0] = 0
+	dp[0][1] = -prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])
 	}
-	return dp[n-1][0] // 最后一天一定是不持有更优
+	return dp[len(prices)-1][0]
 }
 
 // MaxProfitAlternative 买卖股票的最佳时机 II（贪心版）
